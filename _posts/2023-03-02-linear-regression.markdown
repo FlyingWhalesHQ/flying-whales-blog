@@ -126,16 +126,7 @@ Let's explore a housing dataset, we have eight factors (median income, bedsroom,
 
 ```
 
-    Collecting sklearn
-      Downloading sklearn-0.0.post1.tar.gz (3.6 kB)
-      Preparing metadata (setup.py) ... [?25ldone
-    [?25hBuilding wheels for collected packages: sklearn
-      Building wheel for sklearn (setup.py) ... [?25ldone
-    [?25h  Created wheel for sklearn: filename=sklearn-0.0.post1-py3-none-any.whl size=2936 sha256=9fcb1af51c7f75a10724e6baefa19e5013aeee263a6cc8bcc2c8461acad32fd2
-      Stored in directory: /Users/nguyenlinhchi/Library/Caches/pip/wheels/f8/e0/3d/9d0c2020c44a519b9f02ab4fa6d2a4a996c98d79ab2f569fa1
-    Successfully built sklearn
-    Installing collected packages: sklearn
-    Successfully installed sklearn-0.0.post1
+    Requirement already satisfied: sklearn in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (0.0.post1)
 
 
 
@@ -260,6 +251,11 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 # concatnate y so that we have a correlation matrix
 # what correlates the most to y (house price) is median income
+
+# from pandas.plotting import scatter_matrix
+# scatter_matrix(data, figsize=(12, 8))
+# plt.show()
+
 y_new=np.array(y).reshape(-1,1)
 data=np.append(X_scaled, y_new, axis=1)
 data=pd.DataFrame(data)
@@ -283,6 +279,9 @@ regr.fit(X_train,y_train)
 # second is the average bedrooms
 print(regr.coef_)
 y_pred=regr.predict(X_test)
+# MSE is 0.56 and R square is 0.57 (an econometrics indicator of
+# how much explaination power of this model with regard to the 
+# whole dataset)
 print(mean_squared_error(y_test, y_pred))
 print(r2_score(y_test,y_pred))
 ```
@@ -291,6 +290,19 @@ print(r2_score(y_test,y_pred))
      -0.89663505 -0.86892682]
     0.555891598695244
     0.5757877060324511
+
+
+
+```python
+# with max y_test of 5, a MSE of 0.55 is considered to be good
+max(y_test)
+```
+
+
+
+
+    5.00001
+
 
 
 
@@ -304,12 +316,9 @@ plt.yticks(())
 plt.show()
 ```
 
-    No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-
-
 
     
-![png](linreg_files/linreg_5_1.png)
+![png](linreg_files/linreg_6_0.png)
     
 
 
@@ -388,7 +397,5 @@ regr.coef_
 
     array([ 0.85238169,  0.12238224, -0.30511591,  0.37113188, -0.00229841,
            -0.03662363, -0.89663505, -0.86892682])
-
-
 
 
