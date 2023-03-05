@@ -120,6 +120,7 @@ When we add a quadratic term of x, if the parameters $$ \theta $$ still come tog
 
 Let's explore a housing dataset, we have eight factors (median income, bedsroom, house age, average population, etc) and the target to be house value.
 
+
 ```python
 !pip install sklearn
 
@@ -303,9 +304,12 @@ plt.yticks(())
 plt.show()
 ```
 
+    No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+
+
 
     
-![png](linreg_files/linreg_5_0.png)
+![png](linreg_files/linreg_5_1.png)
     
 
 
@@ -384,5 +388,7 @@ regr.coef_
 
     array([ 0.85238169,  0.12238224, -0.30511591,  0.37113188, -0.00229841,
            -0.03662363, -0.89663505, -0.86892682])
+
+
 
 
