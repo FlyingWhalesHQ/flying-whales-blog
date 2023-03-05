@@ -181,9 +181,12 @@ plt.yticks(())
 plt.show()
 ```
 
+    No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+
+
 
     
-![png](linreg_files/linreg_5_0.png)
+![png](linreg_files/linreg_5_1.png)
     
 
 
