@@ -245,7 +245,9 @@ plt.show()
     
 
 
-Then we run the logistic regression estimator from sklearn. The accuracy is 81.25% and we plot the confusion matrix. The confusion matrix is a visual representation to check how correct we are at our prediction. For example, number 3 in the bottom row of the matrix means that there are 3 predictions for the input in class number 2 but the real targets turn out to belong to class number 6. Then we retrieve the importance of each feature, the “Height” attribute/feature is the most important one, contributing 77% of the prediction information. Then comes the Length3.
+Then we run the logistic regression estimator from sklearn. Since machine learning's ultimate quest is to predict the future, metrics to evaluate the models become extremely important and there are many ways to do that. The most obvious choice is accuracy, which is the number of correct prediction over the total predictions made. It is how right we are. This seems only natural since it is in line with what we do for loss calculation: when we train model, we always keep an eye on how wrong or how far we are from the truth. Hence it would be logical to also measure that the first and foremost.
+
+In this case, the accuracy is 81.25% and we plot the confusion matrix. The confusion matrix is a visual representation to check how correct we are at our prediction. For example, number 3 in the bottom row of the matrix means that there are 3 predictions for the input in class number 2 but the real targets turn out to belong to class number 6. Then we retrieve the importance of each feature, the “Height” attribute/feature is the most important one, contributing 77% of the prediction information. Then comes the Length3.
 
 
 ```python
@@ -254,6 +256,7 @@ clf = LogisticRegression()
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 
+# 
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy: {:.2f}%".format(accuracy * 100))
 cf = confusion_matrix(y_test, y_pred)
@@ -266,10 +269,6 @@ plt.title('Confusion Matrix')
 ```
 
     Accuracy: 81.25%
-
-
-
-
 
     Text(0.5, 1.0, 'Confusion Matrix')
 
