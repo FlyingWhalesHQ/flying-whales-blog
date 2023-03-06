@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Logistic Regression"
-date:   2023-03-02 18:14:54 +0700
+date:   2023-03-06 2:14:54 +0700
 categories: jekyll update
 ---
 
@@ -15,7 +15,7 @@ categories: jekyll update
 # Definition <a name="define"></a>
 Remind us a bit about linear regression:
 
-$$ \hat{y}=h_{\theta}(x) = \theta \dot x $$
+$$ \hat{y}=h_{\theta}(x) = \theta \cdot x $$
 
 Where $$ h_{\theta} $$ is the hypothesis function with parameter vector $$ \theta $$. $$ h_{\theta} $$ is supposed to turn input x into output y. Now, to make it more interesting, we would examine a non-linear relationship by wrapping the y hat in the logistic function. Here is the logistic function (also called sigmoid which means s-shape):
 
@@ -24,7 +24,7 @@ $$ \sigma(z) = \frac{1}{1+e^{-z}} \in (0,1) $$
 <img src='https://images.viblo.asia/36d15a7f-4d7d-4b4c-8bde-72b3fbaf842c.png'>
 <p style="font-size:9px">Source:https://viblo.asia/p/logistic-regression-bai-toan-co-ban-trong-machine-learning-924lJ4rzKPM</p>
 
-Let $$ z = \hat{y} = \theta \dot x $$,  we have a new hypothesis function:
+Let $$ z = \hat{y} = \theta \cdot x $$,  we have a new hypothesis function:
 
 $$ h_{\theta}(x)=\sigma(\theta^{\top}x)=\frac{1}{1+e^{-\theta^{\top}x}} $$
 
@@ -52,9 +52,9 @@ Let’s check: with y = 0, the first factor equals 1 since a number to the power
 
 Remember the maximum likelihood: given training set X and target vector y, we want to find parameters  such that the joint probability of all output y to be maximum. In other words, we find  so that the probability that the entire target vector y happens is the highest possible. With this in mind, the problem becomes:
 
-$$ maxP(y|X;\theta) $$
+$$ max_{\theta} P(y|X;\theta) $$
 
-$$ =arg max_{\theta}P(y|X;\theta) $$
+$$ \Leftrightarrow \theta = arg max_{\theta}P(y|X;\theta) $$
 
 Assume i.i.d (data is independently and identically distributed), here is the likelihood:
 
