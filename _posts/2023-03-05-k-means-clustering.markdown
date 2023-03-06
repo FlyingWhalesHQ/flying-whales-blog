@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "K-means clustering"
-date:   2023-03-02 18:14:54 +0700
+date:   2023-03-05 18:14:54 +0700
 categories: jekyll update
 ---
 
@@ -44,6 +44,9 @@ There is a method called elbow in which we choose the optimal number of clusters
 
 <p   style="font-size:9px"> Source: https://www.scikit-yb.org/en/latest/api/cluster/elbow.html </p>
 
+# Code example
+
+Example 1: Let's use K-means clustering algorithm for the problem of identifying similar color groups and compute the amount of forest left in photos taken by satelite.
 
 ```python
 !pip install yellowbrick
@@ -199,7 +202,7 @@ pd.DataFrame(pic2show).value_counts()
     0.14668305492773578
 
 
-
+Example 2: Identifying the number of clusters in the housing price dataset, hence describe (and visualize) the inherent structure of this dataset.
 
 ```python
 from sklearn.datasets import fetch_california_housing

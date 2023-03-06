@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Linear Regression"
-date:   2023-03-02 18:14:54 +0700
+date:   2023-03-03 18:14:54 +0700
 categories: jekyll update
 ---
 
@@ -22,7 +22,7 @@ $$  \hat{y} = \theta_{0} + \theta_{1} x_{1} + \theta_{2} x_{2} + ... + \theta_{n
 
 with n is the number of features, $$ x_{i} $$ is the $$ i_{th} $$ feature value, $$ \theta_{j} $$ is the $$ j_{ith} $$ model parameter ($$ \theta_{0} $$ is the bias term and $$ \theta_{1}, \theta_{2},...,\theta_{n} $$ are feature weights. There is a vector form for it:
 
-$$ \hat{y}=h_{\theta}(x) = \theta \dot x $$
+$$ \hat{y}=h_{\theta}(x) = \theta \cdot x $$
 
 Where $$ h_{\theta} $$ is the hypothesis function with parameter vector .
 
@@ -70,7 +70,7 @@ One of the highlights of this modern field is that we use an optimization approa
 Assume that the above terrain is a loss function’s graph, when we see it and ask the question how to achieve that minimum, we can come up with the following procedure:
 <ul>
 
-<li>Randomly initialize the parameters (weights$$\theta$$) </li>
+<li>Randomly initialize the parameters/weights $$ \theta $$ . </li>
 <li>Since we need to move in the direction of the steepest possible descent (hence the name), we update the parameter vector with: $$ \theta_{j} \leftarrow \theta_{j} - \alpha \frac{\partial}{\partial \theta_{j}} Loss(\theta), \forall j \in (1,n) $$ (we descend by one parameter/dimension at a time). This is equivalent to: $$ \theta \leftarrow \theta - \alpha \frac{\partial}{\partial \theta}Loss(\theta) $$</li>
 <li>Stop when converged</li>
 </ul>

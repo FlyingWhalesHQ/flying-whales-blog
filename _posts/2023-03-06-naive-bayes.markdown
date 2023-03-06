@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Naive Bayes"
-date:   2023-03-02 18:14:54 +0700
+date:   2023-03-06 4:14:54 +0700
 categories: jekyll update
 ---
 
@@ -50,13 +50,13 @@ From here, the calculation of y obviously depends on the type of distributions o
 
 When we assume the conditional probability to be normally distributed, we make use of the following characteristics of that distribution:
 
-$$ Mean \mu = \frac{1}{n}\sum_{i=1}{n}x_{i} $$
+Mean $$ \mu = \frac{1}{n}\sum_{i=1}{n}x_{i} $$
 
-$$ Standard deviation \sigma =\sqrt{\frac{1}{n-1}\sum_{i=1}{n}(x_{i}- \mu )^{2}} $$
+Standard deviation $$ \sigma =\sqrt{\frac{1}{n-1}\sum_{i=1}{n}(x_{i}- \mu )^{2}} $$
 
-$$ Density function p(x)=\frac{1}{\sqrt{2\pi} \sigma}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}} $$
+Density function $$ p(x)=\frac{1}{\sqrt{2\pi} \sigma}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}} $$
 
-Example 1: two features: rain and holiday, output: traffic or not. The precipitation level is 86 96 80 65 70 80 90 75 for days of traffic jams and 85 90 70 95 91 for days of traffic ok. We calculate the mean and standard deviation for these two classes of prediction. Then, the probability of traffic jam with rain level of 74 would be:
+Example 1: Consider a small dataset with two features: precipitation (rain level) and holiday, output: traffic or not. The precipitation level is 86 96 80 65 70 80 90 75 for days of traffic jams and 85 90 70 95 91 for days of traffic ok. Using two different set of rain levels (for two different types of traffic), we can calculate the mean and standard deviation for these two classes of prediction. Then we use those two different mean and standard deviation for the calculation of probability. That said, the probability of traffic jam with rain level of 74 would be:
 
 $$ P(rain = 74 | jam = yes) = \frac{1}{\sqrt{2\pi} \sigma}e^{-\frac{(74-\mu)^{2}}{2\sigma^{2}}}= 0.0344 $$
 
