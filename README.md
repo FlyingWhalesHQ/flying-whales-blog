@@ -24,4 +24,10 @@ bundle exec jekyll serve
 
 5. Naive Bayes
 
+6. Softmax Regression
+
+7. Decision Tree
+
+8. Random Forest
+
 ..
