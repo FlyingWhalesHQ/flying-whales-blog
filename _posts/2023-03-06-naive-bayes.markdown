@@ -67,7 +67,7 @@ $$ P(rain = 74 | jam = no) = \frac{1}{\sqrt{2\pi} \sigma}e^{-\frac{(74-\mu)^{2}}
 Note that we need to normalize those predictions before using it in production: calculate all possible probabilities, sum them up and then divide each for the total to get the real probability.
 
 
-Example 2: A credit institution decides whether to lend a credit line to a person based on several factors: age, income, student status, credit rate.
+Example 2: A credit institution decides whether to lend a credit line to a person based on several factors: age, income, student status, credit rate. In this case, let scale the income so that it comes from range 0 to 10. We encode the categorical attribute "student-or-not" into 0 and 1 with 0 being negative. Same for "lend-or-not" target. Credit rate also comes from 0 to 10.
 
 
 |ID|Age|Income|Student|Credit rate|Lend or not?|

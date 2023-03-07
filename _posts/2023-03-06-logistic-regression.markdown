@@ -182,17 +182,16 @@ Another example uses a fish data set. We have a dataset that classified fish int
 
 ```python
 dataset_url = "https://raw.githubusercontent.com/harika-bonthu/02-linear-regression-fish/master/datasets_229906_491820_Fish.csv"
-import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-import matplotlib.pyplot as plt
-import seaborn as sns
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.metrics import confusion_matrix
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 fish = pd.read_csv(dataset_url, error_bad_lines=False)
