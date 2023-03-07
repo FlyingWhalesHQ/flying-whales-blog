@@ -48,14 +48,33 @@ There is a method called elbow in which we choose the optimal number of clusters
 
 Example 1: Let's use K-means clustering algorithm for the problem of identifying similar color groups and compute the amount of forest left in photos taken by satelite.
 
+
+
 ```python
 !pip install yellowbrick
 ```
 
     Requirement already satisfied: yellowbrick in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (1.5)
-    ...
+    Requirement already satisfied: scipy>=1.0.0 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from yellowbrick) (1.9.1)
+    Requirement already satisfied: scikit-learn>=1.0.0 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from yellowbrick) (1.0.2)
+    Requirement already satisfied: matplotlib!=3.0.0,>=2.0.2 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from yellowbrick) (3.5.2)
+    Requirement already satisfied: cycler>=0.10.0 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from yellowbrick) (0.11.0)
+    Requirement already satisfied: numpy>=1.16.0 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from yellowbrick) (1.21.5)
+    Requirement already satisfied: packaging>=20.0 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from matplotlib!=3.0.0,>=2.0.2->yellowbrick) (21.3)
+    Requirement already satisfied: fonttools>=4.22.0 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from matplotlib!=3.0.0,>=2.0.2->yellowbrick) (4.25.0)
+    Requirement already satisfied: python-dateutil>=2.7 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from matplotlib!=3.0.0,>=2.0.2->yellowbrick) (2.8.2)
+    Requirement already satisfied: pillow>=6.2.0 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from matplotlib!=3.0.0,>=2.0.2->yellowbrick) (9.2.0)
+    Requirement already satisfied: pyparsing>=2.2.1 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from matplotlib!=3.0.0,>=2.0.2->yellowbrick) (3.0.9)
+    Requirement already satisfied: kiwisolver>=1.0.1 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from matplotlib!=3.0.0,>=2.0.2->yellowbrick) (1.4.2)
+    Requirement already satisfied: joblib>=0.11 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from scikit-learn>=1.0.0->yellowbrick) (1.1.0)
+    Requirement already satisfied: threadpoolctl>=2.0.0 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from scikit-learn>=1.0.0->yellowbrick) (2.2.0)
     Requirement already satisfied: six>=1.5 in /Users/nguyenlinhchi/opt/anaconda3/lib/python3.9/site-packages (from python-dateutil>=2.7->matplotlib!=3.0.0,>=2.0.2->yellowbrick) (1.16.0)
 
+
+
+```python
+
+```
 
 
 ```python
@@ -86,9 +105,11 @@ plt.imshow(pic)
 
 
     
-![png](Kmeans_files/Kmeans_2_2.png)
+![png](2Kmeans_files/2Kmeans_4_2.png)
     
 
+
+![2Kmeans_4_2](https://user-images.githubusercontent.com/7457301/223468530-83963b4f-5fe1-48cd-8a06-351fa4352ae7.png)
 
 
 ```python
@@ -114,9 +135,11 @@ plt.imshow(cluster_pic)
 
 
     
-![png](Kmeans_files/Kmeans_3_1.png)
+![png](2Kmeans_files/2Kmeans_6_1.png)
     
 
+
+![2Kmeans_5_1](https://user-images.githubusercontent.com/7457301/223468550-d01b70ca-ebff-46ba-80c3-c6b20aeba4e2.png)
 
 
 ```python
@@ -129,7 +152,7 @@ visualizer.show()
 
 
     
-![png](Kmeans_files/Kmeans_4_0.png)
+![png](2Kmeans_files/2Kmeans_8_0.png)
     
 
 
@@ -139,6 +162,8 @@ visualizer.show()
     <AxesSubplot:title={'center':'Distortion Score Elbow for KMeans Clustering'}, xlabel='k', ylabel='distortion score'>
 
 
+
+![2Kmeans_6_0](https://user-images.githubusercontent.com/7457301/223468556-3bcaba55-2acc-4335-978b-d814c5008d85.png)
 
 
 ```python
@@ -202,7 +227,7 @@ pd.DataFrame(pic2show).value_counts()
     0.14668305492773578
 
 
-Example 2: Identifying the number of clusters in the housing price dataset, hence describe (and visualize) the inherent structure of this dataset.
+
 
 ```python
 from sklearn.datasets import fetch_california_housing
@@ -331,7 +356,7 @@ visualizer.show()
 
 
     
-![png](Kmeans_files/Kmeans_11_0.png)
+![png](2Kmeans_files/2Kmeans_16_0.png)
     
 
 
@@ -341,6 +366,8 @@ visualizer.show()
     <AxesSubplot:title={'center':'Distortion Score Elbow for KMeans Clustering'}, xlabel='k', ylabel='distortion score'>
 
 
+
+![2Kmeans_13_0](https://user-images.githubusercontent.com/7457301/223468569-a177122f-2479-4c57-bd50-7e6e6a92188c.png)
 
 
 ```python
@@ -364,3 +391,17 @@ plt.hist(pd.DataFrame(kmeans2.labels_))
      array([0. , 0.5, 1. , 1.5, 2. , 2.5, 3. , 3.5, 4. , 4.5, 5. ]),
      <BarContainer object of 10 artists>)
 
+
+
+
+    
+![png](2Kmeans_files/2Kmeans_19_1.png)
+    
+
+
+![2Kmeans_15_1](https://user-images.githubusercontent.com/7457301/223468579-1a199203-a41e-4d48-a9f0-96861b207c57.png)
+
+
+```python
+
+```

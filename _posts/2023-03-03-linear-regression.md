@@ -265,8 +265,12 @@ plt.show()
 
 
     
-<!-- ![png](../_site/assets/linreg_files/linreg_3_0.png) -->
-<img src='../_notebooks/1LinReg_files/1LinReg_4_0.png'>
+![png](1LinReg_files/1LinReg_4_0.png)
+    
+
+
+<img src='https://user-images.githubusercontent.com/7457301/223455394-319fb4cb-2fe0-4a0f-b03c-f59c2f4eeadd.png'>
+
 
 
 ```python
@@ -317,9 +321,11 @@ plt.show()
 
 
     
-![png](linreg_files/linreg_6_0.png)
+![png](1LinReg_files/1LinReg_8_0.png)
     
 
+
+<img src="https://user-images.githubusercontent.com/7457301/223455426-f26e8e40-9007-4744-9df8-17b7ba78d491.png">
 
 
 ```python
