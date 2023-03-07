@@ -265,8 +265,9 @@ plt.show()
 
 
     
-<!-- ![png](../_site/assets/linreg_files/linreg_3_0.png) -->
-<img src='../_notebooks/1LinReg_files/1LinReg_4_0.png'>
+![png](1LinReg_files/1LinReg_4_0.png)
+    
+
 
 
 ```python
@@ -317,7 +318,7 @@ plt.show()
 
 
     
-![png](linreg_files/linreg_6_0.png)
+![png](1LinReg_files/1LinReg_7_0.png)
     
 
 
