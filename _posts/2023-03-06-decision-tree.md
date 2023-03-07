@@ -178,6 +178,7 @@ We are utilizing the idea of linear regression: to measure the distance between 
 
 
 ```python
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.tree import export_graphviz
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
