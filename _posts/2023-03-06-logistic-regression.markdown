@@ -246,7 +246,9 @@ plt.show()
 
 Then we run the logistic regression estimator from sklearn. Since machine learning's ultimate quest is to predict the future, metrics to evaluate the models become extremely important and there are many ways to do that. The most obvious choice is accuracy, which is the number of correct prediction over the total predictions made. It is how right we are. This seems only natural since it is in line with what we do for loss calculation: when we train model, we always keep an eye on how wrong or how far we are from the truth. Hence it would be logical to also measure that the first and foremost.
 
-In this case, the accuracy is 81.25% and we plot the confusion matrix. The confusion matrix is a visual representation to check how correct we are at our prediction. For example, number 3 in the bottom row of the matrix means that there are 3 predictions for the input in class number 2 but the real targets turn out to belong to class number 6. Then we retrieve the importance of each feature, the “Height” attribute/feature is the most important one, contributing 77% of the prediction information. Then comes the Length3.
+In this case, the accuracy is 81.25% and we plot the confusion matrix. The confusion matrix is a visual representation to check how correct we are at our prediction. For example, number 3 in the bottom row of the matrix means that there are 3 predictions for the input in class number 2 but the real targets turn out to belong to class number 6. All the off diagonal values are how many data points are misclassified.
+
+Then we retrieve the importance of each feature, the “Height” attribute/feature is the most important one, contributing 77% of the prediction information. Then comes the Length3.
 
 
 ```python

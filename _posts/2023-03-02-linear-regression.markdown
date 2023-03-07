@@ -118,7 +118,7 @@ When we add a quadratic term of x, if the parameters $$ \theta $$ still come tog
 
 # Code <a name="code"></a>
 
-Let's explore a housing dataset, we have eight factors (median income, bedsroom, house age, average population, etc) and the target to be house value.
+Let's explore a housing dataset, we have eight factors (median income, bedsroom, house age, average population, etc) and the target to be house value. In machine learning, before doing model training, we split the dataset into a training and a test set, usually at 80-20 rule. The training is to fit the parameters and the test set is to validate/test those parameters. This gives us a sense of unseen data. It prepares us for the unforeseen but incoming data so that when we do all the calculation for the algorithm, we keep in mind the aim to predict the future as good as possible.
 
 
 ```python
