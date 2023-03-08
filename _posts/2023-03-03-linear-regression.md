@@ -114,7 +114,7 @@ Taking out all the scalar values in the above function, we have MSE. It means th
 
 # Non-linear linear <a name="nonlin"></a>
 
-When we add a quadratic term of x, if the parameters $$ \theta $$ still come together as a linear combination, the problem can still be solved as a linear regression in general.
+When we add a quadratic term of x, if the parameters $$ \theta $$ still come together as a linear combination, the problem can still be solved as a linear regression in general. Note that, the nature of feature x changes since it becomes a nonlinear input. Nonlinear input or nonlinear combination of input can address better and more complex relationship in the data. This is called feature engineering in which we found a special subset of features that explain the output better than each of those in separate.
 
 # Code <a name="code"></a>
 
