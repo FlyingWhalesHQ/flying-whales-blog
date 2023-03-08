@@ -1,0 +1,342 @@
+---
+layout: post
+title:  "Dense Neural Network"
+date:   2023-03-08 10:14:54 +0700
+categories: jekyll update
+---
+
+# TOC
+
+- [Definition](#define)
+- [Backpropagation](#backprop)
+- [Code example](#code)
+
+
+# Definition
+
+Remember the linear combination of input x (note that x can be non linear):
+
+$$ \hat{y}=h_{\theta}(x) = \theta \cdot x $$ 
+
+Also remember when we wrap this linear combination in all kinds of non linear function (sigmoid, sign, softmax). There are some other non linear functions that are also as popular: tanh, ReLU.. In general, those transformations are called activation functions. They are there to transform the data flow and to make the investigation intesresting (instead of a big chunk of linear combination) for complex problems.
+
+In deep learning, each of those nonlinear transformations is one neuron. Hence the perceptron has one neuron. Since it uses the sign function, we can call it a sign neuron. In general, the last neurons that output classes (using softmax) or values are called output layer. Those neurons between input and output layer are called hidden layers since they transform input and continue to do so before outputing some thing for classification or regression.
+
+This kind of network that each neuron of one layer is connected (to be input) to all the neuron for the next layer is called a dense network, or a fully connected feedforward network. It is called feedforward (or sequential) since the input flows (and is transformed) one-way forward from the input to output layer.
+
+## ReLU
+
+ReLU, shorted for Rectified linear unit, is an incredibly fast and straightforward but successful activation function. It is:
+
+$$ ReLU(x) = max(0, h_{\theta}) $$
+
+ReLU returns either 0 or the linear combination of input, whichever is greater.
+
+## A 2-layer neural network
+
+A 2-layer neural network would have one hidden (middle) layer and one output layer. Let's begin the calculation. Say we have 3 attributes $$ x_1, x_2, x_3 $$, the linear combination would be:
+
+$$ \hat{y_1} = h_\theta(x) = \theta_0 x_0 + \theta_1 x_1 + \theta_2 x_2 + \theta_3 x_3 $$
+
+with $$ x_0 = 1 $$ and $$ \theta_0 $$ to be the bias. Take this through the transformation of ReLU and we have the first neuron of the hidden layer:
+
+$$ a_{11} = ReLU(\theta_{01} x_0 + \theta_{11} x_1 + \theta_{21} x_2 + \theta_{31} x_3) $$
+
+For the second neuron of the hidden layers:
+
+$$ a_{21} = ReLU(\theta_{02} x_0 + \theta_{12} x_1 + \theta_{22} x_2 + \theta_{32} x_3) $$
+
+For the output layer:
+
+$$ \hat{y} = h_\theta(x) = \theta_0 + \theta_1 a_{11} + \theta_2 a_{21}  $$
+
+Usually we don't use activation for the output layer that predicts a value (regression). If we need nonnegative value we can use ReLU. For classification problem, we can use a softmax.
+
+With this setup in general, we use a MSE for loss function of a regression problem and cross entropy for classification problem. To optimize loss function, we calculate gradient descent. Backpropagation is a technique to calculate gradient so we can use it for the descent step. In crucial, the whole process of training a neural network means:
+
+- to randomly initialize the parameter vector
+
+- use those starting parameters to do a forward calculation (multiply with input then transform) outputing prediction
+
+- measure the error of prediction
+
+- do a backward pass: calculate how much each parameter is responsible for the error (i.e. we take partial derivative of error with respect to each parameter since technically gradient measure how much pertubed the error is given a minor change in each paramater)
+
+- update the parameters in the direction of descending the gradient so that the error is on the way to the minimal
+
+The backward pass is called backpropagation: we backward propagate the error.
+
+## Backpropagation<a name="backprop"></a>
+
+Here is the loss function:
+
+$$ L = \frac{1}{2}(y - \hat{y})^2 $$ 
+
+Here is the derivatives of loss function with respect to parameters in the output layer $$ \theta_0, \theta_1, \theta_2 $$:
+
+$$ \frac{\partial L}{\partial \theta_{0}} = \frac{\partial L}{\partial \hat{y}} \frac{\partial \hat{y}}{\partial \theta_{0}} = (y - \hat{y})(-\hat{y}) \frac{\partial (\theta_0 + \theta_1 a_{11} + \theta_2 a_{21})}{\partial \theta_0} = -\hat{y}(y - \hat{y}) $$
+
+
+$$ \frac{\partial L}{\partial \theta_1} = \frac{\partial L}{\partial \hat{y}} \frac{\partial \hat{y}}{\partial \theta_{1}} = (y - \hat{y})(-\hat{y}) \frac{\partial (\theta_0 + \theta_1 a_{11} + \theta_2 a_{21})}{\partial \theta_1} = -\hat{y}(y - \hat{y}) a_{11} $$
+
+$$ \frac{\partial L}{\partial \theta_2} = -\hat{y}(y - \hat{y})a_{21} $$
+
+Here is the derivatives of loss function with respect to parameters $$ \theta_{01},..,\theta_{31}, \theta_{02},..,\theta_{32} $$ in the hidden layer:
+
+$$ \frac{\partial L}{\partial \theta_{01}} = \frac{\partial L}{\partial \hat{y}} \frac{\partial \hat{y}}{\partial a_{11}} \frac{\partial a_{11}}{\partial \theta_{01}} = -\hat{y}(y - \hat{y}) \theta_{1} \frac{\partial ReLU}{\partial \theta_{01}} $$
+
+with $$ \frac{\partial ReLU}{\partial \theta_{01}} =
+\begin{cases}
+      0 & \text{if $x_0$ < 0}\\
+      1 & \text{if $x_0$ > 0}\\
+\end{cases}
+$$
+
+$$ \Leftrightarrow \frac{\partial L}{\partial \theta_{01}} =
+\begin{cases}
+      0 & \text{if $x_0$ < 0}\\
+      -\hat{y}(y - \hat{y}) \theta_{1} & \text{if $x_0$ > 0}\\
+\end{cases}
+$$
+...
+
+The update rule is:
+
+$$ \theta \leftarrow \theta - \alpha \nabla_{\theta} L(\theta) $$
+
+## Code example
+
+Consider the following analytical example: 3 features and 2 input data points:
+
+| $$ x_1 $$ | $$ x_2$$  |  $$x_3  $$ | y| 
+|--|--|--|--|
+| -2 | 4 | 3 | 380 | 
+| 5  | 8 | 10| 1950|
+
+We have 11 parameters:
+
+|$$\theta_{01}$$|$$\theta_{11}$$|$$\theta_{21}$$|$$\theta_{31}$$| $$\theta_{02}$$|$$\theta_{12}$$|$$\theta_{22}$$|$$\theta_{32}$$| $$\theta_0$$|$$\theta_1$$|$$\theta_2$$ |
+|--|--|--|--|--|--|--|--|--|--|--|
+|4|7|8|2|4|5|7|9|1|10|3|
+
+
+
+```python
+import numpy as np
+o = np.ones(2).reshape(2,1)
+
+X = [[-2,4,3],[5,8,10]]
+theta = [[4,7,8,2],[4,5,7,9]]
+theta_output=[1,10,3]
+
+X = np.array(X).reshape(2,3)
+X=np.concatenate([o,X],axis=1)
+X
+```
+
+
+
+
+    array([[ 1., -2.,  4.,  3.],
+           [ 1.,  5.,  8., 10.]])
+
+
+
+
+```python
+theta=np.array(theta).reshape(4,2)
+X2=np.dot(X,theta)
+X2=np.concatenate([o,X2],axis=1)
+X2
+```
+
+
+
+
+    array([[  1.,  25.,  50.],
+           [  1., 146., 147.]])
+
+
+
+
+```python
+theta_output=np.array(theta_output).reshape(3,1)
+# y hat
+y_hat = np.dot(X2,theta_output)
+y_hat
+```
+
+
+
+
+    array([[ 401.],
+           [1902.]])
+
+
+
+
+```python
+y = [[380],[1950]]
+L = np.sum(np.square(y-y_hat))/2
+L
+```
+
+
+
+
+    1372.5
+
+
+
+The loss is 1372 (which is still quite large, this is because the two observations are too different). Let $$ \alpha = 0.001 $$ to be the learning rate. Since $$ x_0 = 1 > 0 $$, the new $$ \theta_{01} $$ (the bias) for the first observation (data point) after the first round would be: 
+
+$$ \theta_{01} = \theta_{01} - 0.1 \frac{\partial L}{\partial \theta_{01}} = - 0.001 * -\hat{y}(y - \hat{y}) \theta_{1} = 0.1 * 401 ( 380 - 401) 10 = -84  $$
+
+Let's try some code on the MNIST dataset.
+
+
+```python
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import train_test_split
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import SGD
+```
+
+
+```python
+X_mnist, y_mnist = fetch_openml('mnist_784', return_X_y=True, as_frame=False)
+```
+
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(X_mnist, y_mnist, test_size=0.2, random_state=2)
+```
+
+
+```python
+# preprocess data
+
+X_train /= 255
+X_test /= 255
+y_train=y_train.astype(float)
+y_test=y_test.astype(float)
+
+# there are 10 categories, from 0 to 9
+
+n_classes = 10
+y_train = keras.utils.to_categorical(y_train, n_classes)
+y_test = keras.utils.to_categorical(y_test, n_classes)
+```
+
+
+```python
+# use a dense (sequential) network
+# add 2 hidden layers of 64 neuron each, activation relue
+# one input image has 28 pixel * 28 pixel = 784 pixels
+# we flatten them into a vector of 784 pixels.
+# the output layer has 10 neurons for 10 categories
+
+model = Sequential()
+model.add(Dense(64, activation='relu', input_shape=(784,)))
+model.add(Dense(64, activation='relu')
+model.add(Dense(10, activation='softmax'))
+
+model.compile(loss='categorical_crossentropy',
+              optimizer=SGD(lr=0.1),
+              metrics=['accuracy'])
+
+model.fit(X_train, y_train,
+          batch_size=128, epochs=20,
+          verbose=1,
+          validation_data=(X_test, y_test))
+```
+
+Epoch 1/20
+
+438/438 [==============================] - 3s 5ms/step - loss: 0.4838 - accuracy: 0.8618 - val_loss: 0.2677 - val_accuracy: 0.9201
+
+Epoch 2/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.2232 - accuracy: 0.9346 - val_loss: 0.2198 - val_accuracy: 0.9347
+
+Epoch 3/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.1741 - accuracy: 0.9488 - val_loss: 0.2230 - val_accuracy: 0.9308
+
+Epoch 4/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.1454 - accuracy: 0.9569 - val_loss: 0.1415 - val_accuracy: 0.9576
+
+Epoch 5/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.1262 - accuracy: 0.9626 - val_loss: 0.1325 - val_accuracy: 0.9588
+
+Epoch 6/20
+
+438/438 [==============================] - 1s 3ms/step - loss: 0.1106 - accuracy: 0.9673 - val_loss: 0.1264 - val_accuracy: 0.9614
+
+Epoch 7/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.0996 - accuracy: 0.9703 - val_loss: 0.1383 - val_accuracy: 0.9555
+
+Epoch 8/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.0887 - accuracy: 0.9738 - val_loss: 0.1019 - val_accuracy: 0.9694
+
+Epoch 9/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.0805 - accuracy: 0.9759 - val_loss: 0.0976 - val_accuracy: 0.9703
+
+Epoch 10/20
+
+438/438 [==============================] - 2s 3ms/step - loss: 0.0734 - accuracy: 0.9782 - val_loss: 0.1042 - val_accuracy: 0.9679
+
+Epoch 11/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.0667 - accuracy: 0.9801 - val_loss: 0.0947 - val_accuracy: 0.9727
+
+Epoch 12/20
+
+438/438 [==============================] - 2s 3ms/step - loss: 0.0611 - accuracy: 0.9820 - val_loss: 0.0916 - val_accuracy: 0.9704
+Epoch 13/20
+
+438/438 [==============================] - 2s 3ms/step - loss: 0.0564 - accuracy: 0.9835 - val_loss: 0.0878 - val_accuracy: 0.9728
+
+Epoch 14/20
+
+438/438 [==============================] - 2s 3ms/step - loss: 0.0526 - accuracy: 0.9841 - val_loss: 0.0901 - val_accuracy: 0.9721
+
+Epoch 15/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.0480 - accuracy: 0.9857 - val_loss: 0.0856 - val_accuracy: 0.9730
+
+Epoch 16/20
+
+438/438 [==============================] - 2s 5ms/step - loss: 0.0453 - accuracy: 0.9864 - val_loss: 0.0825 - val_accuracy: 0.9747
+
+Epoch 17/20
+
+438/438 [==============================] - 2s 3ms/step - loss: 0.0410 - accuracy: 0.9880 - val_loss: 0.0916 - val_accuracy: 0.9714
+
+Epoch 18/20
+
+438/438 [==============================] - 2s 4ms/step - loss: 0.0380 - accuracy: 0.9888 - val_loss: 0.0808 - val_accuracy: 0.9756
+
+Epoch 19/20
+
+438/438 [==============================] - 2s 3ms/step - loss: 0.0347 - accuracy: 0.9897 - val_loss: 0.0787 - val_accuracy: 0.9759
+
+Epoch 20/20
+
+438/438 [==============================] - 1s 3ms/step - loss: 0.0325 - accuracy: 0.9909 - val_loss: 0.0818 - val_accuracy: 0.9756
+
+<keras.callbacks.History at 0x7fc31fc273d0>
+
+We achieve 97.56% in 20 epoch which is not so bad.
+
+
+```python
+
+```

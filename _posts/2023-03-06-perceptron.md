@@ -21,25 +21,22 @@ $$ \hat{y}=h_{\theta}(x) = \theta \cdot x $$
 
 Instead of the logistic function, we use a step function (with threshold) to wrap around that linear combination to have a new hypothesis function h:
 
-$$ h_{\theta}(x)=step(\theta^{\top} x)=
-
+$$ h_{\theta}(x)=step(\theta^{\top} x) = 
 \begin{cases}
       1 & \text{if $z$ < 0}\\
       2 & \text{if $z$ >= 0}\\
 \end{cases}
+$$
 
- $$ 
 
 Sometimes we use a sign function. A sign function is similar to a step function, it also use 0 as a threshold:
 
-$$ sgn(z) = 
-
+$$ sgn(z) =
 \begin{cases}
       -1 & \text{if $z$ < 0}\\
       0 & \text{if $z$ = 0}\\
       1 & \text{if $z$ > 0}
 \end{cases}
-
 $$
 
 Because of its step (and sign) function, this architecture is called a threshold logic unit. It is also the simplest artificial neural network architecture. Due to the nature of its output, this architecture can do classification, starting from a binary one.
