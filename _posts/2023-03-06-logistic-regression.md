@@ -168,30 +168,28 @@ plt.scatter(X,y_max,marker='s',alpha=0.5,color=colors)
 
 
     
-![png](LogReg_files/LogReg_4_1.png)
+![png](3LogReg_files/3LogReg_4_1.png)
     
 
 
-
-```python
-
-```
+![3LogReg_4_1](https://user-images.githubusercontent.com/7457301/223472456-922e63cd-ce6f-46d8-ad74-a4040570dfd8.png)
 
 Another example uses a fish data set. We have a dataset that classified fish into 7 categories. We preprocess data by using a scaler and encode the label into numbers. Then we split the data into a train and a test set, for the sake of validating. 
 
 
 ```python
 dataset_url = "https://raw.githubusercontent.com/harika-bonthu/02-linear-regression-fish/master/datasets_229906_491820_Fish.csv"
+import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
-
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
 
 
 fish = pd.read_csv(dataset_url, error_bad_lines=False)
@@ -206,16 +204,10 @@ X_train, X_test, y_train, y_test= train_test_split(X_scaled, y, test_size=0.2, r
 
 ```
 
-    /var/folders/kf/5_ggvsz93vxdbx_h0tvy66xh0000gn/T/ipykernel_7272/3805894089.py:15: FutureWarning: The error_bad_lines argument has been deprecated and will be removed in a future version. Use on_bad_lines in the future.
+    /var/folders/kf/5_ggvsz93vxdbx_h0tvy66xh0000gn/T/ipykernel_3145/1694655126.py:15: FutureWarning: The error_bad_lines argument has been deprecated and will be removed in a future version. Use on_bad_lines in the future.
     
     
       fish = pd.read_csv(dataset_url, error_bad_lines=False)
-
-
-
-    
-![png](LogReg_files/LogReg_7_1.png)
-    
 
 
 When we plot the scatters of the train and test set, we see a similar distribution. This is a good sign, since we would like our training set to be close to the test set, this would reduce error. 
@@ -240,15 +232,13 @@ plt.show()
 
 
     
-![png](LogReg_files/LogReg_9_0.png)
+![png](3LogReg_files/3LogReg_9_0.png)
     
 
 
-Then we run the logistic regression estimator from sklearn. Since machine learning's ultimate quest is to predict the future, metrics to evaluate the models become extremely important and there are many ways to do that. The most obvious choice is accuracy, which is the number of correct prediction over the total predictions made. It is how right we are. This seems only natural since it is in line with what we do for loss calculation: when we train model, we always keep an eye on how wrong or how far we are from the truth. Hence it would be logical to also measure that the first and foremost.
+![3LogReg_8_0](https://user-images.githubusercontent.com/7457301/223472468-641b6306-5a15-48d8-98e5-1efa8f5065fd.png)
 
-In this case, the accuracy is 81.25% and we plot the confusion matrix. The confusion matrix is a visual representation to check how correct we are at our prediction. For example, number 3 in the bottom row of the matrix means that there are 3 predictions for the input in class number 2 but the real targets turn out to belong to class number 6. All the off diagonal values are how many data points are misclassified.
-
-Then we retrieve the importance of each feature, the “Height” attribute/feature is the most important one, contributing 77% of the prediction information. Then comes the Length3.
+Then we run the logistic regression estimator from sklearn. The accuracy is 81.25% and we plot the confusion matrix. The confusion matrix is a visual representation to check how correct we are at our prediction. For example, number 3 in the bottom row of the matrix means that there are 3 predictions for the input in class number 2 but the real targets turn out to belong to class number 6. Then we retrieve the importance of each feature, the “Height” attribute/feature is the most important one, contributing 77% of the prediction information. Then comes the Length3.
 
 
 ```python
@@ -257,7 +247,6 @@ clf = LogisticRegression()
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 
-# 
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy: {:.2f}%".format(accuracy * 100))
 cf = confusion_matrix(y_test, y_pred)
@@ -271,15 +260,21 @@ plt.title('Confusion Matrix')
 
     Accuracy: 81.25%
 
+
+
+
+
     Text(0.5, 1.0, 'Confusion Matrix')
 
 
 
 
     
-![png](LogReg_files/LogReg_11_2.png)
+![png](3LogReg_files/3LogReg_12_2.png)
     
 
+
+![3LogReg_10_2](https://user-images.githubusercontent.com/7457301/223472472-4becbc9e-a699-4d7c-80dd-5bca4592e396.png)
 
 
 ```python
@@ -305,10 +300,4 @@ X.columns
 
     Index(['Weight', 'Length1', 'Length2', 'Length3', 'Height', 'Width'], dtype='object')
 
-
-
-
-```python
-
-```
 

@@ -70,6 +70,8 @@ for i in range(6):
     
 
 
+![8RandomForest_3_0](https://user-images.githubusercontent.com/7457301/223482687-1e7065a8-4b64-4fb3-ad5f-bcddfd46dd55.png)
+
 
 ```python
 X_train, X_test, y_train, y_test = train_test_split(X_mnist, y_mnist, test_size=0.2, random_state=2)
@@ -129,9 +131,11 @@ plt.title('Confusion Matrix')
 
 
     
-![png](8RandomForest_files/8RandomForest_8_2.png)
+![png](8RandomForest_files/8RandomForest_9_2.png)
     
 
+
+![8RandomForest_8_2](https://user-images.githubusercontent.com/7457301/223482709-e67a62c5-9da0-4726-ba69-c81b86534d4a.png)
 
 
 ```python
@@ -146,6 +150,13 @@ plt.show()
 
 
     
-![png](8RandomForest_files/8RandomForest_9_0.png)
+![png](8RandomForest_files/8RandomForest_11_0.png)
     
 
+
+![8RandomForest_9_0](https://user-images.githubusercontent.com/7457301/223482717-84ba97bf-cec0-460f-87e5-a50e64be6ec7.png)
+
+
+```python
+
+```

@@ -109,14 +109,6 @@ print("Accuracy:", metrics.accuracy_score(y_test, y_pred)*100)
 
 
 
-```python
-
-```
-
-
-
-
-
 # Multinomial naive Bayes <a name="mnb"></a>
 
 In this classifier, $$ p(x_{i}\mid y) $$ is the frequency of $$ x_{i} $$ in the class $$ y_{j} $$
@@ -129,7 +121,7 @@ Consider a use case for multinomial naive Bayes, we need to classify documents. 
 
 Despite its fancy name, the rationale and the tweak are rather simple: to prevent 0 appearing in the frequency table and obstruct computation, we add 1 to each and every value in the equation. The reason for such a name is that this technique has mathematical interpretation, can be applied in other places, and specifically it affects the logic of the system and its ability to make inference.
 
-Example 3: Classify a question on Quora to be sincere or insincere? Insincere means hate-speech or not-real.
+Example 3: A kaggle dataset: Classify a question on Quora to be sincere or insincere? Insincere means hate-speech or not-real.
 
 <ul>
     <li>Preprocess data:
@@ -141,8 +133,7 @@ Example 3: Classify a question on Quora to be sincere or insincere? Insincere me
     </li>
     <li>Training model:
         <ul>
-            <li> Find probability for each word. Eliminate words with probability < 0.0001</li>
-
+            <li> Find probability for each word. Eliminate words with probability smaller than 0.0001</li>
             <li> Find conditional probability = probability of that word / total (in)sincere words
             </li>
         </ul>
@@ -167,3 +158,8 @@ In the above equation, if $$ x_{i} = 1 $$, its probability $$ p(x_{i} \mid y) = 
 The likelihood of the document would then be:
 
 $$ p(X \mid y) = \prod_{i=1}{n}p^{x_{i}}_{i}(1-p_{i})^{1-x_{i}} $$
+
+
+```python
+
+```

@@ -75,7 +75,7 @@ And, remember that softmax function is a generalization of logistic function.
 
 # Code example <a name="code"></a>
 
-The following example uses the iris dataset (you can try also the MNIST dataset with this same recipe, accuracy around 80% - please do this on your own as an exercise). First we load the data and split it. For this data, we all have the length of the flower's part in cm and there is no missing value or outliers, hence we can jump right to the model training part. Remember that sklearn uses the same regressor (LogisticRegression) for softmax regression but you have to set multi_class='multinomial'. After prediction, we plot the prediction and the ground truth together, there is only one misclassified point (yellow in class 1) and the accuracy is more than 96%. Congrats!
+The following example uses the iris dataset (you can try also the MNIST dataset with this same recipe, accuracy around 80%). First we load the data and split it. For this data, we all have the length of the flower's part in cm and there is no missing value or outliers, hence we can jump right to the model training part. Remember that sklearn uses the same regressor (LogisticRegression) for softmax regression but you have to set multi_class='multinomial' yourself. After prediction, we plot the prediction and the ground truth together, there is only one misclassified point (yellow in class 1) and the accuracy is more than 96%. Congrats!
 
 
 ```python
@@ -136,3 +136,11 @@ plt.scatter(X_test[:,0], Y_test, c=Y_pred)
 ![png](6SoftmaxReg_files/6SoftmaxReg_6_1.png)
     
 
+
+![6SoftmaxReg_6_1](https://user-images.githubusercontent.com/7457301/223476900-5d9adc31-f6a5-42d4-8ddf-2b0054581b95.png)
+
+
+
+```python
+
+```

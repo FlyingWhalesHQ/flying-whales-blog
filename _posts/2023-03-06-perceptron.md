@@ -86,13 +86,14 @@ As you can see this is similar to linear regression, but the meaning is very dif
 
 Please have a look at the historical perceptron, inspired by biology, from the famous paper of Frank Rosenblatt (1958)
 
-<img src='perceptron.png'>
+<img width="628" alt="perceptron" src="https://user-images.githubusercontent.com/7457301/223474372-122bb291-9018-46d7-b59e-45a152933b7c.png">
 
 <p style="font-size:9px">Source: Frank Rosenblatt, 1958</p>
 
 The following picture shows the perceptron of today, as a threshold logic unit:
 
-<img src='modern-perceptron.png'>
+<img width="668" alt="Screen Shot 2023-03-06 at 10 16 58" src="https://user-images.githubusercontent.com/7457301/223474398-4e63e3f1-d58b-4d85-a2fc-beed02cd882c.png">
+
 
 <p style="font-size:9px">Source: Handson Machine Learning, O’Reilly</p>
 
@@ -105,6 +106,7 @@ Nowsadays, the step function is generally called an activation function, and the
 Consider an original perceptron, with 2 inputs and 1 output, all of which are binary, and in this example the perceptron would be used to classify document: whether the document is a scientific one or not. The input 1 would be whether the document has an abstract part. And the second input is the length of the document.
 
 We have 10 documents in the library to classify, with the following characteristics:
+
 
 
 ```python
@@ -173,7 +175,7 @@ y
 
 
 
-With all the y computed, let's plot them. Any documents that passed 75 point would be colored
+With all the y computed, let's plot them. Any documents that passed 75 point would be colored red. That would be our scientific document. The result: there is only one red document.
 
 
 ```python
@@ -198,9 +200,11 @@ plt.show()
 
 
     
-![png](Perceptron_files/Perceptron_12_0.png)
+![png](4Perceptron_files/4Perceptron_12_0.png)
     
 
+
+![4Perceptron_12_0](https://user-images.githubusercontent.com/7457301/223474136-84df1c7e-895a-4e13-8468-060802875974.png)
 
 
 ```python
