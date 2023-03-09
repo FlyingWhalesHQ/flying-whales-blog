@@ -29,9 +29,7 @@ This regression still make sure that the prediction maps to the highest value of
 
 # Cross entropy <a name="loss"></a>
 
-In linear regression, when outputs are values that can be arbitrary, the distance between prediction and true value makes sense. With the softmax function, on the other hand, we output probability (which is between 0 and 1). The loss function is from the function that used a lot to measure the difference between two probability distributions: cross entropy.
-
-Here is the cross entropy between two distributions p and q:
+In linear regression, when outputs are values that can be arbitrary, the distance between prediction and true value makes sense. With the softmax function, on the other hand, we output probability (which is between 0 and 1). To measure loss, i.e. the difference between the distribution of the prediction and the ground truth one, we use cross entropy. Here is the cross entropy between two distributions p and q:
 
 $$ H(p,q) = - \sum_{i=1}^{y} p_{i} log q_{i} $$
 

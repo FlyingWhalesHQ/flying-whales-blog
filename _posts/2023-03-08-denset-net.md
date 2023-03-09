@@ -98,7 +98,8 @@ $$ \Leftrightarrow \frac{\partial L}{\partial \theta_{01}} =
       -\hat{y}(y - \hat{y}) \theta_{1} & \text{if $x_0$ > 0}\\
 \end{cases}
 $$
-...
+
+etc.
 
 The update rule is:
 
