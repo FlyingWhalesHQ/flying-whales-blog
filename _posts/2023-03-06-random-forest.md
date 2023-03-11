@@ -158,5 +158,122 @@ plt.show()
 
 
 ```python
+# YALE FACES
+
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+import pandas as pd
+import os
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+```
+
+
+```python
+PATH='./yalefaces/'
+image_paths=next(os.walk(PATH))[2]
+X =[]
+y=[]
+for i in range(165):
+    image_name=image_paths[i]
+    image = plt.imread(PATH+image_name)
+    X.append(image.flatten())
+    y.append(image_name[10:-5])
+plt.imshow(image)
+plt.show()
+print(image.shape)
+X=np.array(X)
+X.shape
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2)
+rnd_clf = RandomForestClassifier(n_estimators=100, random_state=42, oob_score=True)
+rnd_clf.fit(X_train, y_train)
+y_pred = rnd_clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy: {:.2f}%".format(accuracy * 100))
+cf = confusion_matrix(y_test, y_pred)
+plt.figure()
+sns.heatmap(cf, annot=True)
+plt.xlabel('Prediction')
+plt.ylabel('Target')
+plt.title('Confusion Matrix')
+
+```
+
+
+    
+![png](8RandomForest_files/8RandomForest_14_0.png)
+    
+
+
+    (231, 195)
+    Accuracy: 42.42%
+
+
+
+
+
+    Text(0.5, 1.0, 'Confusion Matrix')
+
+
+
+
+    
+![png](8RandomForest_files/8RandomForest_14_3.png)
+    
+
+
+![8RandomForest_14_0](https://user-images.githubusercontent.com/7457301/224483931-47d8c2e2-eb08-4f6f-bbfe-d0455cf42a22.png)
+![8RandomForest_14_3](https://user-images.githubusercontent.com/7457301/224483934-889deea9-c7a3-45e3-899f-eef9a8b492ef.png)
+
+We can see that the prediction accuracy is 42% which is quite low. The reason is that we have only 165 photos. When we plot the feature importance, the most features that the model attends to are the right light, eyes, noses, cheek and chin.
+
+
+```python
+pd.Series(y).value_counts()
+```
+
+
+
+
+    glasses        15
+    noglasses      15
+    centerlight    15
+    happy          15
+    leftlight      15
+    normal         15
+    rightlight     15
+    sleepy         15
+    wink           15
+    sad            15
+    surprised      15
+    dtype: int64
+
+
+
+
+```python
+heatmap_image = rnd_clf.feature_importances_.reshape(231, 195)
+plt.imshow(heatmap_image, cmap="hot")
+cbar = plt.colorbar(ticks=[rnd_clf.feature_importances_.min(),
+                           rnd_clf.feature_importances_.max()])
+cbar.ax.set_yticklabels(['Not important', 'Very important'], fontsize=14)
+plt.axis("off")
+plt.show()
+```
+
+
+    
+![png](8RandomForest_files/8RandomForest_18_0.png)
+    
+
+
+![8RandomForest_17_0](https://user-images.githubusercontent.com/7457301/224483935-f7def751-c195-43b6-9d50-5575501079b7.png)
+
+
+```python
 
 ```
