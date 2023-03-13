@@ -116,7 +116,7 @@ yhat
 |2|3| 10|+1|+1|0|
 |-1|0| -0.5|-1|-1|0|
 
-training loss = $ \frac{1}{3}$
+training loss = $$ \frac{1}{3}$$
 
 |$$ x_1 $$|$$ x_2 $$|y|$$ h_{\theta} $$|$$ \hat{y}=sgn(h_{\theta}) $$|zero-one loss|margin=$ \hat{y}{y} $|hinge|
 |--|--|--|--|--|--|--|--|
@@ -124,4 +124,9 @@ training loss = $ \frac{1}{3}$
 |2|3| 10|+1|+1|0|10|0|
 |-1|0| -0.5|-1|-1|0|0.5|0.5|
 
-training loss = $ \frac{1}{6}$
+training loss = $$ \frac{1}{6}$$
+
+
+```python
+
+```
