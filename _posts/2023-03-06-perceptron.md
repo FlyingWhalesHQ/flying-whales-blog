@@ -112,14 +112,14 @@ length = [12, 1, 2, 5, 23, 10, 1, 2, 3, 5]
 
 ```
 
-Since the abstract is something that defines hence determines the scientificness of a paper, we would weight that factor stronger by giving it a multiplicative factor of w1 = 7. We grade the length at the importance of w2 = 5. For random reason, let's say there is an amount of w0 = 3 accounting for things we don't know. Now we need to compute this equation: y = w0 + w1 * abstract + w2 * length. 
+Since the abstract is something that defines hence determines the scientificness of a paper, we would weight that factor stronger by giving it a multiplicative factor of $$ \theta_1 = 7$$. We grade the length at the importance of $$ \theta_2 = 5 $$. For random reason, let's say there is an amount of $$ \theta_0 = 3 $$ accounting for things we don't know. Now we need to compute this equation: $$ y = \theta_0 + \theta_1 * abstract + \theta_2 * length$$ . 
 
 
 ```python
-w1 = 7
-w2 = 5
-w0 = 3
-w = [w1, w2, w0]
+theta1 = 7
+theta2 = 5
+theta0 = 3
+theta = [theta1, theta2, theta0]
 ```
 
 Let's start by sorting the first document, with no abstract and length of 12 pages.
@@ -161,7 +161,7 @@ x=np.append(x, x3, axis=1)
 
 
 ```python
-y = np.dot(x,w)
+y = np.dot(x,theta)
 y
 ```
 
@@ -176,6 +176,8 @@ With all the y computed, let's plot them. Any documents that passed 75 point wou
 
 
 ```python
+import matplotlib.pyplot as plt
+
 colors = []
 for e in y:
   if e > 75:

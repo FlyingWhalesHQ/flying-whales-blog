@@ -94,7 +94,7 @@ This is the stochastic gradient ascent rule:
 
 $$ \theta_{j} \leftarrow  \theta_{j}+\alpha(y^{(i)}-h_{\theta}(x^{(i)}))x^{(i)}_{j} $$
 
-Notice that y - h(x) is the difference between the true value and the predicted value, so the general idea holds that we guide our step on the landscape by measuring how right we are when we make small steps on the landscape. You would come to the same conclusion if you define a loss function and minimize it.
+Notice that $$ y - h(x) $$ is the difference between the true value and the predicted value, so the general idea holds that we guide our step on the landscape by measuring how right we are when we make small steps on the landscape. You would come to the same conclusion if you define a loss function and minimize it.
 
 For binary classification, apart from using the logistic function in the hypothesis function, we can apply this versatile function to the loss function. For example, we can define a loss function to be:
 

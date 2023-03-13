@@ -61,7 +61,7 @@ Taking derivaties, the gradient is:
 
 $$ \nabla_{\theta} L(\theta) = - \sum_{i=1}^{m} [ x^{i} (1\{y^{i} = k\} - p(y^{(i)} = k \mid x^{i}; \theta)) ] $$
 
-with $$ p(y^{(i)} = k \mid x^{i}; \theta) = \frac{exp(\theta_{j}^{\top}x_i)}{\sum_{k=1}^{K}exp(\theta_{k}^{\top}x_{i})} $$
+with $ p(y^{(i)} = k \mid x^{i}; \theta) = \frac{exp(\theta_{j}^{\top}x_i)}{\sum_{k=1}^{K}exp(\theta_{k}^{\top}x_{i})} $
 
 The update rule will be:
 
