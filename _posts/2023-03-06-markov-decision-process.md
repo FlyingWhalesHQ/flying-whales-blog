@@ -9,6 +9,7 @@ categories: jekyll update
 
 - [Definition](#define)
 - [Example](#ex)
+- [Code example](#code)
 
 # Definition <a name="#define"></a>
 
@@ -74,7 +75,7 @@ Now we iterate for optimal value:
 
 We play a game. At each round, you choose to stay or quit. If you quit, you get $$ \$10 $$ and ends the game. If you stay, you get $$ \$4 $$ and $$ \frac{1}{3} $$ probability of ending the game and $$ \frac{2}{3} $$ probability of going to the next round. Let $$ \gamma = 1 $$.
 
-Let's evaluate the policy of "stay":
+There are two policies: to stay or to quit. The value of policy "quit" is $$ \$10 $$. Let's evaluate the policy of "stay":
 
 $$ V_{\pi} (end) = 0 $$
 
@@ -86,12 +87,46 @@ $$ \Leftrightarrow V_{\pi}(in) = 12 > 10 $$
 
 We definitely should stay in the game.
 
+# Code example <a name="code"></a>
+
+At time 0, we set value policy "stay" to be 0. At iteration 1, value (in) = Q-value at 1 = probabilities * expected utility. delta to be the absolute difference between value of previous iteration minus the value of this iteration. If delta is smaller than 0.001, we stop the calculation. As you will see below, the calculation stops at iteration 20, and we have value of policy "stay" to be 11.99 $$ \approx $$ 12
+
 
 ```python
+import random
+import numpy as np
+
+V = 0
+delta = 0
+for i in range (100):
+    v = V
+    V = 1/3 * (4 + 0) + 2/3 * (4 + V)
+    delta = np.abs(v-V)
+    if delta < 0.001:
+        break
+    print(i,V)
 
 ```
 
+    0 4.0
+    1 6.666666666666666
+    2 8.444444444444445
+    3 9.62962962962963
+    4 10.419753086419753
+    5 10.946502057613168
+    6 11.297668038408778
+    7 11.53177869227252
+    8 11.687852461515012
+    9 11.791901641010009
+    10 11.86126776067334
+    11 11.907511840448892
+    12 11.938341226965928
+    13 11.958894151310618
+    14 11.972596100873746
+    15 11.98173073391583
+    16 11.98782048927722
+    17 11.991880326184814
+    18 11.99458688412321
+    19 11.99639125608214
+    20 11.997594170721426
 
-```python
-
-```
