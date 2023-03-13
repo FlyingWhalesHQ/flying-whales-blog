@@ -77,7 +77,7 @@ Assume that the above terrain is a loss function’s graph, when we see it and a
 
 Full gradient descent takes into account the full training dataset, but it is computationally costly. Another way to do it is to take into account only a mini batch of the training set each time. Stochastic gradient descent is when the algorithm takes into account only one instance of the training data at a time.
 
-Notice that $$ \alpha $$ can be tuned to be constant (usually at 0.1) or it can be adaptive ($$ \alpha = \frac{1}{updates so far} $$).
+Notice that $$ \alpha $$ can be tuned to be constant (usually at 0.1) or it can be adaptive ($$ \alpha = \frac{1}{\text{updates so far}} $$).
 
 # Maximum likelihood <a name="maxili"></a>
 
@@ -108,8 +108,7 @@ $$ l(\theta) = log L(\theta) = log \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi}\sigma} e
 $$ = \sum_{i=1}^{n} log \frac{1}{\sqrt{2\pi}\sigma} exp(-\frac{(y^{(i)} - \theta^{\top} x^{(i)})^{2}}{2\sigma^{2}}) $$
 
 $$ = n log \frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{\sigma^{2}} \frac{1}{2} \sum_{i=1}^{n}(y^{(i)} - \theta^{\top} x^{(i)})^{2} $$
-
-Taking out all the scalar values in the above function, we have MSE. It means that when we find the maximum likelihood of $$ \theta $$ for maximizing the joint probability of X, we come to the least square error function. That’s it for econometrics!
+Taking out all the scalar values in the above function, we have MSE. It means that when we find the maximum likelihood of $ \theta $ for maximizing the joint probability of X, we come to the least square error function. That’s it for econometrics!
 
 
 # Non-linear linear <a name="nonlin"></a>
