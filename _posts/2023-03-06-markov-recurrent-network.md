@@ -236,7 +236,7 @@ Epoch 100/100
 
 ![rnn](https://user-images.githubusercontent.com/7457301/225573952-2d3dc1ae-73f6-416e-a097-099dd49445a5.png)
 
-# LSTM - Long short term memory cell
+## LSTM - Long short term memory cell
 
 To address the issue of the recurrent neuron in which it doesn't remember too long in the past, long short term memory neuron was architected. Apart from the current input, there is a thread of long term memory which carries recognized pattern. There is also a thread of short term memory which carries the information from the previous time step. Inside the cell, there are gates to control the flow of data. Since those gates use sigmoid function, they output 1 to open the gate and 0 to close the gate. There are usually 3 gates: forget gate, input gate and output gate. Those gates choose which pattern to forget, which new one to take into the long term memory thread, and it also controls how much of long term data should be used in this cell to output immediately.
 
@@ -282,6 +282,8 @@ Epoch 100/100
 8/8 [==============================] - 0s 38ms/step - loss: 0.0182
 
 ![lstm14](https://user-images.githubusercontent.com/7457301/225573937-8aa08490-719f-447b-90c2-928673bf4324.png)
+
+## Bidirectional neural net
 
 Since LSTM runs only from the past to the present, there is an extension that called Bidirectional LSTM in which we wire the future back to the past. This is to mimic the situation in speaking where we think in advance til the end and only then we formulate a sentence. Since there are information at the end of that sentence that needs to be thought through before we know which words to use for the beginning of the sentence.
 
@@ -380,7 +382,7 @@ plot_results(H2,'imdb')
 
 ![imdb](https://user-images.githubusercontent.com/7457301/225586057-ca991bf3-0464-46c8-ba14-4e51698611aa.png)
 
-# GRU - Gated recurrent unit
+## GRU - Gated recurrent unit
 
 A GRU is similar to LSTM cell in which it has gates and a thread of memory. There is one gate to control which part of data should be recalled from the memory and which part should use the current input. It is a simplified LSTM.
 
