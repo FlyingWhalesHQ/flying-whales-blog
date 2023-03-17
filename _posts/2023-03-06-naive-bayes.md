@@ -121,7 +121,7 @@ Consider a use case for multinomial naive Bayes, we need to classify documents. 
 
 Despite its fancy name, the rationale and the tweak are rather simple: to prevent 0 appearing in the frequency table and obstruct computation, we add 1 to each and every value in the equation. The reason for such a name is that this technique has mathematical interpretation, can be applied in other places, and specifically it affects the logic of the system and its ability to make inference.
 
-Example 3: A kaggle dataset: Classify a question on Quora to be sincere or insincere? Insincere means hate-speech or not-real.
+Example 3: Classify a question on Quora to be sincere or insincere? Insincere means hate-speech or not-real.
 
 <ul>
     <li>Preprocess data:
@@ -147,6 +147,141 @@ Example 3: A kaggle dataset: Classify a question on Quora to be sincere or insin
 
 
 
+
+```python
+import numpy as np 
+import pandas as pd
+train = pd.read_csv('train.csv')
+test=pd.read_csv('test.csv')
+
+# preprocess
+from sklearn.model_selection import train_test_split
+train, test = train_test_split(train, test_size=0.2)
+word_count = {}
+word_count_sincere = {}
+word_count_insincere = {}
+sincere  = 0
+insincere = 0 
+
+import re
+import string
+import nltk
+stop_words = set(nltk.corpus.stopwords.words('english'))
+from nltk.stem import PorterStemmer
+stemmer= PorterStemmer()
+row_count = train.shape[0]
+for row in range(0,row_count):
+    insincere += train.iloc[row]['target']
+    sincere += (1 - train.iloc[row]['target'])
+    sentence = train.iloc[row]['question_text']
+    sentence = re.sub(r'\d+','',sentence)
+    sentence = sentence.translate(sentence.maketrans("","",string.punctuation))
+    words_in_sentence = list(set(sentence.split(' ')) - stop_words)
+    for index,word in enumerate(words_in_sentence):
+        word = stemmer.stem(word)
+        words_in_sentence[index] = stemmer.stem(word)
+
+    for word in words_in_sentence:
+        if train.iloc[row]['target'] == 0:   #Sincere Words
+            if word in word_count_sincere.keys():
+                word_count_sincere[word]+=1
+            else:
+                word_count_sincere[word] = 1
+        elif train.iloc[row]['target'] == 1: #Insincere Words
+            if word in word_count_insincere.keys():
+                word_count_insincere[word]+=1
+            else:
+                word_count_insincere[word] = 1
+        if word in word_count.keys():        #For all words. I use this to compute probability.
+            word_count[word]+=1
+        else:
+            word_count[word]=1
+
+# find proba for each word. eliminate < 0.0001
+
+word_probability = {}
+total_words = 0
+for i in word_count:
+    total_words += word_count[i]
+for i in word_count:
+    word_probability[i] = word_count[i] / total_words
+
+print ('Total words ',len(word_probability))
+print ('Minimum probability ',min (word_probability.values()))
+threshold_p = 0.0001
+for i in list(word_probability):
+    if word_probability[i] < threshold_p:
+        del word_probability[i]
+        if i in list(word_count_sincere):   #list(dict) return it;s key elements
+            del word_count_sincere[i]
+        if i in list(word_count_insincere):  
+            del word_count_insincere[i]
+print ('Total words ',len(word_probability))
+
+# find conditional proba
+
+total_sincere_words = sum(word_count_sincere.values())
+cp_sincere = {}  #Conditional Probability
+for i in list(word_count_sincere):
+    cp_sincere[i] = word_count_sincere[i] / total_sincere_words
+
+total_insincere_words = sum(word_count_insincere.values())
+cp_insincere = {}  #Conditional Probability
+for i in list(word_count_insincere):
+    cp_insincere[i] = word_count_insincere[i] / total_insincere_words
+    
+#    predict
+
+row_count = test.shape[0]
+p_insincere = insincere / (sincere + insincere)
+p_sincere = sincere / (sincere + insincere)
+accuracy = 0
+
+for row in range(0,row_count):
+    sentence = test.iloc[row]['question_text']
+    target = test.iloc[row]['target']
+    sentence = re.sub(r'\d+','',sentence)
+    sentence = sentence.translate(sentence.maketrans("","",string.punctuation))
+    words_in_sentence = list(set(sentence.split(' ')) - stop_words)
+    for index,word in enumerate(words_in_sentence):
+        word = stemmer.stem(word)
+        words_in_sentence[index] = stemmer.stem(word)
+
+    insincere_term = p_insincere
+    sincere_term = p_sincere
+    
+    sincere_M = len(cp_sincere.keys())
+    insincere_M = len(cp_insincere.keys())
+    for word in words_in_sentence:
+        if word not in cp_insincere.keys():
+            insincere_M +=1
+        if word not in cp_sincere.keys():
+            sincere_M += 1
+         
+    for word in words_in_sentence:
+        if word in cp_insincere.keys():
+            insincere_term *= (cp_insincere[word] + (1/insincere_M))
+        else:
+            insincere_term *= (1/insincere_M)
+        if word in cp_sincere.keys():
+            sincere_term *= (cp_sincere[word] + (1/sincere_M))
+        else:
+            sincere_term *= (1/sincere_M)
+        
+    if insincere_term/(insincere_term + sincere_term) > 0.5:
+        response = 1
+    else:
+        response = 0
+    if target == response:
+        accuracy += 1
+    
+print ('Accuracy is ',accuracy/row_count*100)
+
+# Accuracy is  94.13
+```
+
+
+
 # Bernoulli naive Bayes <a name="bnb"></a>
 
 In this case, we only need to care about whether the word appears (i.e. we don’t care about its frequency). 
@@ -158,8 +293,3 @@ In the above equation, if $$ x_{i} = 1 $$, its probability $$ p(x_{i} \mid y) = 
 The likelihood of the document would then be:
 
 $$ p(X \mid y) = \prod_{i=1}{n}p^{x_{i}}_{i}(1-p_{i})^{1-x_{i}} $$
-
-
-```python
-
-```

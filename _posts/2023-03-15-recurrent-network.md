@@ -148,7 +148,7 @@ plt.show()
 
 ```python
 # Simple RNN
-
+time_steps=15 # time steps is the number of data points used to predict the next one
 # 2
 import numpy as np
 import pandas as pd
@@ -240,7 +240,7 @@ Epoch 100/100
 
 To address the issue of the recurrent neuron in which it doesn't remember too long in the past, long short term memory neuron was architected. Apart from the current input, there is a thread of long term memory which carries recognized pattern. There is also a thread of short term memory which carries the information from the previous time step. Inside the cell, there are gates to control the flow of data. Since those gates use sigmoid function, they output 1 to open the gate and 0 to close the gate. There are usually 3 gates: forget gate, input gate and output gate. Those gates choose which pattern to forget, which new one to take into the long term memory thread, and it also controls how much of long term data should be used in this cell to output immediately.
 
-
+Here is a LSTM net for the electric production dataset:
 
 
 ```python
@@ -283,11 +283,34 @@ Epoch 100/100
 
 ![lstm14](https://user-images.githubusercontent.com/7457301/225573937-8aa08490-719f-447b-90c2-928673bf4324.png)
 
+### Time distributed layer
+
+In LSTM, when you return_sequences=True (predict a sequence instead of a single point in time), technically the next layer needs to be able to input a sequence of values. If you want to cover the LSTM with a Dense layer on top, you need to turn off return_sequence. There is a way to handle the sequence (result of the hidden layers) returned, using a Time Distribution layer. That time distributed layer would receive all the sequence returned by LSTM and process to return whatever a usual Dense layer would return.
+
+Here is a net with time distributed wrapped around LSTM:
+
+
+
+```python
+rnn = Sequential()
+rnn.add(LSTM(units = 45, return_sequences = True, input_shape = (x_training_data.shape[1], 1)))
+rnn.add(Dropout(0.2))
+for i in [True, True, True]:
+    rnn.add(LSTM(units = 45, return_sequences = i))
+rnn.add(TimeDistributed(Dense(units=1)))
+rnn.compile(optimizer = 'adam', loss = 'mean_squared_error')
+rnn.fit(x_training_data, y_training_data, epochs = 100, batch_size = 32)
+
+```
+
+Epoch 100/100
+8/8 [==============================] - 0s 30ms/step - loss: 0.0469
+
 ## Bidirectional neural net
 
 Since LSTM runs only from the past to the present, there is an extension that called Bidirectional LSTM in which we wire the future back to the past. This is to mimic the situation in speaking where we think in advance til the end and only then we formulate a sentence. Since there are information at the end of that sentence that needs to be thought through before we know which words to use for the beginning of the sentence.
 
-Processing natural language is messy. There is a step before we can run the model: to encode or split words into tokens, and turn them into vector representations. Only after that, we apply the matrix multiplication. Since the words are translated into numbers, we can calculate the sentiment of a paragraph, to be whether positive or negative review. Here is one example recipe, to classify sentiment of IMDB reviews:
+Processing natural language is messy. There is a step before we can run the model: to encode words into digital formats (vector of numbers), this vector is also called the vector representation of the word. After that step, we can apply all the matrix multiplications. Since the words are translated into numbers, we can calculate the sentiment of a paragraph, to see whether it is a positive or negative review. Here is one example recipe, to classify sentiment of IMDB reviews:
 
 - Load dataset from tensorflow, split the train and test sets
 
@@ -384,7 +407,7 @@ plot_results(H2,'imdb')
 
 ## GRU - Gated recurrent unit
 
-A GRU is similar to LSTM cell in which it has gates and a thread of memory. There is one gate to control which part of data should be recalled from the memory and which part should use the current input. It is a simplified LSTM.
+A GRU is similar to LSTM cell in which it has gates and a thread of memory. There is one gate to control which part of data should be recalled from the memory and which part should use the current input. It is a simplified LSTM. Follows is a GRU net for electric production data:
 
 
 ```python
