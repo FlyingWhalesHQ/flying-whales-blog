@@ -108,7 +108,7 @@ $$ l(\theta) = log L(\theta) = log \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi}\sigma} e
 $$ = \sum_{i=1}^{n} log \frac{1}{\sqrt{2\pi}\sigma} exp(-\frac{(y^{(i)} - \theta^{\top} x^{(i)})^{2}}{2\sigma^{2}}) $$
 
 $$ = n log \frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{\sigma^{2}} \frac{1}{2} \sum_{i=1}^{n}(y^{(i)} - \theta^{\top} x^{(i)})^{2} $$
-Taking out all the scalar values in the above function, we have MSE. It means that when we find the maximum likelihood of $ \theta $ for maximizing the joint probability of X, we come to the least square error function. That’s it for econometrics!
+Taking out all the scalar values in the above function, we have MSE. It means that when we find the maximum likelihood of $$ \theta $$ for maximizing the joint probability of X, we come to the least square error function. That’s it for econometrics!
 
 
 # Non-linear linear <a name="nonlin"></a>

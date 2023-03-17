@@ -157,6 +157,15 @@ lr.coef_
 ```
 
 
+
+
+    array([-0.11700384,  0.03017099, -0.14855216,  0.03985434, -0.00048977,
+            0.14432013, -0.37239141, -0.30347431,  0.03935653,  0.07562387,
+           -0.14924506, -0.2700542 , -0.00070114])
+
+
+
+
 ```python
 X_new = X[:,6]
 X_new=np.append(X_new, X[:,6])
@@ -195,6 +204,13 @@ accuracy_score(y_test,y_pred)
 ```
 
 
+
+
+    0.9722222222222222
+
+
+
+
 ```python
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -212,6 +228,28 @@ y_points = -(w[0] / w[1]) * x_points - b / w[1]  # getting corresponding y-point
 # Plotting a red hyperplane
 plt.plot(x_points, y_points, c='r');
 ```
+
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    /var/folders/kf/5_ggvsz93vxdbx_h0tvy66xh0000gn/T/ipykernel_9387/2929301100.py in <module>
+          8                 s=8);
+          9 # Constructing a hyperplane using a formula.
+    ---> 10 w = svc_model.coef_[0]           # w consists of 2 elements
+         11 b = svc_model.intercept_[0]      # b consists of 1 element
+         12 x_points = np.linspace(1.1,1.3)    # generating x-points from -1 to 1
+
+
+    NameError: name 'svc_model' is not defined
+
+
+
+    
+![png](3LinSVM_files/3LinSVM_8_1.png)
+    
+
 
 ![3LinSVM_8_0](https://user-images.githubusercontent.com/7457301/224625394-60a022ce-061f-46db-a2dc-d3837ac3f2d8.png)
 

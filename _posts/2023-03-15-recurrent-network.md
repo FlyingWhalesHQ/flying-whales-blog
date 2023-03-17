@@ -285,7 +285,7 @@ Epoch 100/100
 
 ### Time distributed layer
 
-In LSTM, when you return_sequences=True (predict a sequence instead of a single point in time), technically the next layer needs to be able to input a sequence of values. If you want to cover the LSTM with a Dense layer on top, you need to turn off return_sequence. There is a way to handle the sequence returned, using a Time Distribution layer. That time distributed layer would receive all the sequence returned by LSTM and process to return whatever a usual Dense layer would return.
+In LSTM, when you return_sequences=True (predict a sequence instead of a single point in time), technically the next layer needs to be able to input a sequence of values. If you want to cover the LSTM with a Dense layer on top, you need to turn off return_sequence. There is a way to handle the sequence (result of the hidden layers) returned, using a Time Distribution layer. That time distributed layer would receive all the sequence returned by LSTM and process to return whatever a usual Dense layer would return.
 
 Here is a net with time distributed wrapped around LSTM:
 
@@ -310,7 +310,7 @@ Epoch 100/100
 
 Since LSTM runs only from the past to the present, there is an extension that called Bidirectional LSTM in which we wire the future back to the past. This is to mimic the situation in speaking where we think in advance til the end and only then we formulate a sentence. Since there are information at the end of that sentence that needs to be thought through before we know which words to use for the beginning of the sentence.
 
-Processing natural language is messy. There is a step before we can run the model: to encode or split words into tokens, and turn them into vector representations. Only after that, we apply the matrix multiplication. Since the words are translated into numbers, we can calculate the sentiment of a paragraph, to be whether positive or negative review. Here is one example recipe, to classify sentiment of IMDB reviews:
+Processing natural language is messy. There is a step before we can run the model: to encode words into digital formats (vector of numbers), this vector is also called the vector representation of the word. After that step, we can apply all the matrix multiplications. Since the words are translated into numbers, we can calculate the sentiment of a paragraph, to see whether it is a positive or negative review. Here is one example recipe, to classify sentiment of IMDB reviews:
 
 - Load dataset from tensorflow, split the train and test sets
 
