@@ -77,7 +77,7 @@ matrix with the number of rows to be the length of the sentence (each word is a 
 
 # Code example
 
-The most two famous implementations of the transformer are GPT and BERT, with GPT remains an auto regressive model (masked the future: you only rely on previous words to predict the next one), and BERT being bidirectional (the attention is not masked). In the code example, we would use a pretrained GPT-2 and continue to train with a corpus of data science text, so that it can finish our sentence with technical notes.
+The most two famous implementations of the transformer are GPT and BERT, with GPT remains an auto regressive model (masked the future: you only rely on previous words to predict the next one), and BERT being bidirectional (the attention is not masked). In the code example, we would use a pretrained GPT-2 and continue to train with a corpus of data science text, so that it can finish our sentence with technical notes. Then we deploy the model on huggingface.
 
 ```python
 from transformers import GPT2Tokenizer, TextDataset, DataCollatorForLanguageModeling, GPT2LMHeadModel, pipeline, Trainer, TrainingArguments
@@ -100,7 +100,9 @@ for generated_sequence in pretrained_generator('An unsupervised learning algorig
   print(generated_sequence['generated_text'])
 ```
 
-An unsupervised learning algorightm is often described as a self-learning system used for identifying unsupervised algorithms in tasks that involve multiple objects. An unsupervised learning system uses its own processor to identify inputs in these task conditions that
+Here is the sentence finishing before our training:
+
+- An unsupervised learning algorightm is often described as a self-learning system used for identifying unsupervised algorithms in tasks that involve multiple objects. An unsupervised learning system uses its own processor to identify inputs in these task conditions that
 An unsupervised learning algorightm is often employed to determine if a person is "attached" to her "likes" on Pinterest or Tumblr. A group of scientists believe this way will lead to information about an individual's mental state
 
 
@@ -132,10 +134,11 @@ trainer.evaluate()
 trainer.train()
 ```
 
-Epoch	Training Loss	Validation Loss
-1	4.222500	3.959039
-2	3.853700	3.712693
-3	3.626700	3.587901
+|Epoch|	Training Loss |	Validation Loss|
+|--|--|--|
+|1|	4.222500|	3.959039|
+|2| 3.853700|	3.712693|
+|3|	3.626700|	3.587901|
 
 
 
@@ -144,11 +147,17 @@ tokenizer._tokenizer.save("tokenizer.json")
 trainer.save_model()
 ```
 
-Try the model [here](https://huggingface.co/ayaderaghul/datascience-style-completion?text=Machine+learning+is+the+practice+that)
+Try the model [here deployed on huggingface](https://huggingface.co/ayaderaghul/datascience-style-completion?text=Machine+learning+is+the+practice+that)
 
 <embed src="https://huggingface.co/ayaderaghul/datascience-style-completion?text=Machine+learning+is+the+practice+that" width="300" height="200">
 
+Here is the sentence finishing after training:
 
-```python
+- An unsupervised learning algorightm is that they can be designed to behave like simple classes in real-world scenarios. For example, a simple training program where they're trained to do four things:
 
-```
+Select the first two items of
+
+
+- Machine learning is the practice that will help you become a better student and make the most of your career if you're willing to commit to this and to work hard to get better.
+
+It's often true about education that the hardest thing in the
