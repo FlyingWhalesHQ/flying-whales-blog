@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Recurrent Neural Network"
+title:  "Recurrent Neural Network (RNN)"
 date:   2023-03-15 10:14:54 +0700
 categories: jekyll update
 ---
