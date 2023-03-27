@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Markov Decision Process"
+title:  "Markov Decision Process (MDP)"
 date:   2023-03-13 10:14:54 +0700
 categories: jekyll update
 ---
