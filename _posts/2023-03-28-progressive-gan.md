@@ -1,0 +1,119 @@
+---
+layout: post
+title:  "ProgressiveGAN and styleGAN"
+date:   2023-03-28 10:14:54 +0700
+categories: jekyll update
+---
+
+# Introduction
+
+## Wasserstein loss function
+
+Assume that $$ p_r $$ is the real distribution of the data, $$ p_g $$ is the generated distribution. Wasserstein / EM (EarthMover) is the infimum (smallest floor) of the distance between $$ p_r $$ and $$ p_g $$:
+
+$$ W(p_r,p_g) = inf_{\gamma \in \prod(p_r,p_g)} E_{(x,y)} {[\mid \mid x - y \mid \mid]} $$
+
+$$ \prod(p_r,p_g) $$ is the join distribution of $$ p_r $$ and $$ p_g $$.
+
+We solve the duality of Wasserstein:
+
+$$ W(p_r, p_{\theta}) = sup E_{x \in p_r} {[f(x)]} - E_{x \in p_{\theta}}{[f(x)]} $$
+
+with f to be a function of 1-Lipschitz continuous. This function gives us a limited gradient and would protect us from exploding gradient. Being K-Lipschitz continuous means:
+
+$$ \mid \frac{f(x_1)-f(x_2)}{x_1 - x_2} \mid \leq K, \forall x_1, x_2 \in R $$
+
+The loss function for the discriminator becomes:
+
+$$ \nabla_{\phi} {[ \frac{1}{m} \sum_{i=1}^{m} f_{\phi} (x^{(i)}) - \frac{1}{m} \sum_{i=1}^{m} f_{\phi}(G_{\theta}(z^{(i)})) ]} $$
+
+with $$ \phi $$ being the weights of the discriminator network, and $$ \theta $$ being the weights of the generator network.
+
+The loss function for the generator becomes:
+
+$$ \nabla_{\theta} \frac{1}{m} \sum_{i=1}^{m} f_{\phi} (g_{\theta} (z^{(i)})) $$
+
+The progressiveGAN model uses Wasserstein loss function, and styleGAN is a progressiveGAN.
+
+## ProgressiveGAN
+
+ProgressiveGAN starts training with a generator and discriminator for images of size 4x4, then gradually add layers into the generator and discriminator until the image size those networks can handle is up to 1024x1024. This is a way to generate large images reliably. The final generator and discriminator are composite functions: $$ G = G_1 \circ G_2 \circ G_3 ... \circ G_N $$ and $$ D = D_1 \circ D_2 ... \circ D_N $$
+
+This procedure allows the network to learn the big picture, then to focus on finer scale detail, instead of learning all scales at once. During the training, the generator and discriminator are mirror images of each other (that always grow together). All layers are trainable and after each addition of layer, there is a fading in process to smooth in the new layer.
+
+The fading in process works as follows:
+
+<img width="619" alt="Screen Shot 2023-03-28 at 13 18 47" src="https://user-images.githubusercontent.com/7457301/228145911-c32e2ac8-b0b3-4a36-89fb-77ca49f75d3e.png">
+
+The output after an x layer is a residual block, it gets to skip the 2x layer. Then it is convexly combined with the output of the 2x layer, in RGB.
+
+To assess the results, the authors assess the statistical similarity for multi scales (big and small). Since to be considered a good generator, it should generate images that has the local structure similar to the training set, on all scales. They calculate the statistical similarity between local image patches and the target, starting from patch size from 16x16 up to the full resolution (1024x1024). Each patch is first normalized with respect to mean and standard deviation of each color channel, then they use the sliced Wasserstein distance to compute the similarity between generated patch $$ x_i $$ and target patch $$ y_i $$. A small Wasserstein distance will say that the distributions are similar. The distance between small patch (16x16) would tell the similarity in large-scale structure (big picture) and the distance between big patch (finest-level) would tell the similarity of pixel level attributes such as sharpness or edges.
+
+# Code example
+
+
+```python
+import tensorflow as tf
+tf.random.set_seed(0)
+import imageio
+import tensorflow_hub as hub
+
+progan = hub.load("https://tfhub.dev/google/progan-128/1").signatures['default']
+
+plt.imshow(np.array(progan(tf.random.normal([latent_dim]))['default'])[0])
+
+fig = plt.figure()
+figsize=(16,16)
+for i in range(4):
+  plt.subplot(2,2,i+1)
+  plt.imshow(np.array(progan(tf.random.normal([latent_dim]))['default'])[0])
+plt.savefig('image')
+plt.show()
+```
+
+![image](https://user-images.githubusercontent.com/7457301/228139892-ff6e1152-de9c-4105-9f6b-38b825057c3c.png)
+
+![image-2](https://user-images.githubusercontent.com/7457301/228141364-65acae32-f061-429d-b7ac-8f8237d7c539.png)
+
+
+
+```python
+def animate(images):
+  images = np.array(images)
+  converted_images = np.clip(images * 255, 0, 255).astype(np.uint8)
+  imageio.mimsave('./animation.gif', converted_images)
+  return embed.embed_file('./animation.gif')
+
+def interpolate_between_vectors():
+  v1 = tf.random.normal([latent_dim])
+  v2 = tf.random.normal([latent_dim])
+    
+  # Creates a tensor with 25 steps of interpolation between v1 and v2.
+  vectors = interpolate_hypersphere(v1, v2, 50)
+
+  # Uses module to generate images from the latent space.
+  interpolated_images = progan(vectors)['default']
+
+  return interpolated_images
+
+interpolated_images = interpolate_between_vectors()
+animate(interpolated_images)
+```
+
+
+![animation](https://user-images.githubusercontent.com/7457301/228141854-d66b6b31-f535-4981-b8e7-1424965ab077.gif)
+
+# StyleGAN
+
+A styleGAN is an extension of progressiveGAN. It uses the gradually added layer approach by progressiveGAN and adds some deviation to the generator desgin. The generator design learns from the tradditional neural style transfer literature.
+
+<img width="952" alt="Screen Shot 2023-03-28 at 16 33 51" src="https://user-images.githubusercontent.com/7457301/228194247-0e6ad7c8-ba76-4710-a191-399a1e167e08.png">
+
+In tradditional progressive GAN, the random latent vector goes through normalization, then convoluted layer then doubling the size. But in styleGAN, the latent vector goes through normalization then a mapping network of 8 fully connected layers (a MLP), then the output goes through a synthesis network to generate the image. The synthesis network looks like a progressive network with size doubling in each phase. Each phase (block) starts with a constant vector, then it goes through convolution and AdaIN, then Gaussian noise is added.
+
+$$ AdaIN(x_i, y) = y_{s,i} \frac{x_i - \mu (x_i)}{\sigma(x_i)} + y_{b,i} $$
+
+
+```python
+
+```
