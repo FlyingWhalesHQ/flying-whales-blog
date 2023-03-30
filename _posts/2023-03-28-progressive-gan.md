@@ -2,7 +2,7 @@
 layout: post
 title:  "ProgressiveGAN and styleGAN"
 date:   2023-03-28 10:14:54 +0700
-categories: jekyll update
+categories: GAN
 ---
 
 # Introduction
@@ -93,7 +93,7 @@ def animate(images):
 def interpolate_between_vectors():
   v1 = tf.random.normal([latent_dim])
   v2 = tf.random.normal([latent_dim])
-    
+
   # Creates a tensor with 25 steps of interpolation between v1 and v2.
   vectors = interpolate_hypersphere(v1, v2, 50)
 

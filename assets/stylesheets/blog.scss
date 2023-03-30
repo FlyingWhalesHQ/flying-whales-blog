@@ -1,0 +1,72 @@
+---
+---
+@import "main";
+
+html {
+  font-family: 'Raleway', sans-serif;
+}
+
+.site-header {
+  .site-title {
+    color: #344A93 !important;
+    line-height: 45px !important;
+
+    img {
+      height: 20px;
+      width: auto;
+    }
+  }
+
+  .site-nav {
+    line-height: 45px !important;
+  }
+
+  .nav-mobile {
+    display: none;
+  }
+
+  .nav-secondary {
+    border-top: 1px solid #E6E8EC;
+    text-align: center;
+
+    a {
+      padding: 10px 8px;
+      line-height: 40px;
+      color: #777E90;
+
+      &:hover {
+        text-decoration: none;
+        border-bottom: 1px solid #344A93;
+        color: #344A93;
+      }
+    }
+
+    .active {
+      border-bottom: 1px solid #344A93;
+      color: #344A93;
+    }
+  }
+
+}
+
+.page-content {
+  padding: 0;
+  background-image: url('/assets/images/bg.png');
+
+  .wrapper {
+    padding-top: 30px;
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .site-header {
+    .nav-secondary {
+      display: none;
+    }
+
+    .nav-mobile {
+      display: block;
+    }
+  }
+}
