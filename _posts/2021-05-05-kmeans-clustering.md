@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "K-means clustering"
-date:   2023-03-05 18:14:54 +0700
-categories: jekyll update
+date:   2021-05-05 18:14:54 +0700
+categories: MachineLearning
 ---
 
 K-means clustering is a simple and intuitive algorithm. The introduction would be short. In K-means clustering, we are given a dataset without labels but has an inherent structure:

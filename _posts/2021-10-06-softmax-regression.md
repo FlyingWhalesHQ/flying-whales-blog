@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Softmax Regression"
-date:   2023-03-06 6:14:54 +0700
-categories: jekyll update
+date:   2021-10-06 6:14:54 +0700
+categories: MachineLearning
 ---
 
 # TOC

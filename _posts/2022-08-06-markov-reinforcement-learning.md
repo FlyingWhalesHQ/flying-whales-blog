@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Reinforcement Learning: Q-learning and social cooperation"
-date:   2023-03-13 10:14:54 +0700
-categories: jekyll update
+date:   2022-08-13 10:14:54 +0700
+categories: MachineLearning
 ---
 
 # Introduction

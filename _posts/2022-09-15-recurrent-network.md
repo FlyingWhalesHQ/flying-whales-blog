@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Recurrent Neural Network (RNN)"
-date:   2023-03-15 10:14:54 +0700
-categories: jekyll update
+date:   2022-09-15 10:14:54 +0700
+categories: DeepLearning
 ---
 
 

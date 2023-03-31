@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Perceptron"
-date:   2023-03-06 3:14:54 +0700
-categories: jekyll update
+date:   2021-08-06 3:14:54 +0700
+categories: DeepLearning
 ---
 
 # TOC

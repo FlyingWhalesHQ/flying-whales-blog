@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Linear Support Vector Machine (SVM)"
-date:   2023-03-06 2:30:54 +0700
-categories: jekyll update
+date:   2021-06-06 2:30:54 +0700
+categories: MachineLearning
 ---
 
 # TOC

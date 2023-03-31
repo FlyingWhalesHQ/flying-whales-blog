@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Linear Regression"
-date:   2023-03-03 18:14:54 +0700
-categories: jekyll update
+date:   2021-04-03 18:14:54 +0700
+categories: MachineLearning
 ---
 
 # TOC

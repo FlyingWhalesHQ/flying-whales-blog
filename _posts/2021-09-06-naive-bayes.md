@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Naive Bayes"
-date:   2023-03-06 4:14:54 +0700
-categories: jekyll update
+date:   2021-09-06 4:14:54 +0700
+categories: MachineLearning
 ---
 
 # TOC
