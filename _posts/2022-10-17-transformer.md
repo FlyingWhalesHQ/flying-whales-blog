@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Transformer"
-date:   2023-03-17 14:14:54 +0700
-categories: jekyll update
+date:   2022-10-17 14:14:54 +0700
+categories: DeepLearning
 ---
 
 ## Encoder - decoder

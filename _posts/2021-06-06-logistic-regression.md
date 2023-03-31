@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Logistic Regression"
-date:   2023-03-06 2:14:54 +0700
-categories: jekyll update
+date:   2021-07-06 2:14:54 +0700
+categories: MachineLearning
 ---
 
 # TOC

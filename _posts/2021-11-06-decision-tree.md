@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Decision Tree"
-date:   2023-03-06 8:14:54 +0700
-categories: jekyll update
+date:   2021-11-06 8:14:54 +0700
+categories: MachineLearning
 ---
 
 # TOC
