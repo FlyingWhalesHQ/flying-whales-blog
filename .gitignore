@@ -4,3 +4,4 @@ _site
 .jekyll-metadata
 vendor
 note.md
+_notebooks/yolov5
