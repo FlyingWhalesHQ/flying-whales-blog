@@ -5,6 +5,15 @@ date:   2023-04-26 10:14:54 +0700
 categories: Mathematics
 ---
 
+# TOC
+- [Introduction](#intro)
+- [Equivalence](#equi)
+- [Convex optimization](#convex)
+- [Linear program](#linear)
+- [Quadratic program](#quadratic)
+- [Geometric program](#geometric)
+
+
 # Introduction
 
 Convex optimization is a subfield of mathematical optimization that deals with the minimization of convex functions over convex sets. Convex optimization problems have a unique global minimum, which is a highly desirable property for optimization algorithms. The field has many applications in areas such as machine learning, signal processing, statistics, finance, and operations research.
