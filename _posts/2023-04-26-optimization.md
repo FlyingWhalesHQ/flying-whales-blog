@@ -82,9 +82,54 @@ From the standard optimization problem, the convex optimization problem requires
 
 - The equality constrain functions $$ h_i(x) = a_i^T x - b_i $$ must be affine
 
+Since the domain of the problem is convex, the feasible set of a convex optimization problem is also convex. 
 
+For the convex optimization problem, any local optimal point is also global. We prove this by contradictory. If x is feasible and locally optimal, then $$ f_0(x) = inf\{f_0(z) \mid z \text{feasible}, \mid\mid z - x \mid\mid_2 \leq R \}, R \geq 0 $$. Suppose that x is not globally optimal, there would exists a feasible y such that $$ f_0(y) < f_0(x) $$. This would make $$ \mid \mid y - x \mid\mid_2 > R $$ since otherwise $$ f_0(x) \leq f_0(y) $$. Consider a point $$ z = (1 - \theta) x + \theta y, \theta = \frac{R}{2\mid\mid y - x \mid\mid_2} $$. Then $$ \mid\mid z - x \mid\mid_2 = R/2 < R $$. By convexity of the feasible set, z is feasible. By convexity of $$ f_0 $$: $$ f_0(z) \leq (1 - \theta) f_0 (x) + \theta f_0(y) < f_0(x) $$. This is contradictory, so there is no other feasible y with $$ f_0(y) < f_0(x) $$ so x is indeed global.
 
+# Linear optimization
 
-```python
+When the objective and constraint functions are all affine, the problem is called a linear program. A general linear program has the form:
 
-```
+minimize $$ c^T x + d $$ subject to $$ Gx \leq h, Ax = b $$ where $$ G \in R^{mxn}, A \in R^{pxn} $$. Notice that the constant d is not necessary. 
+
+<img width="366" alt="Screen Shot 2023-04-26 at 16 19 00" src="https://user-images.githubusercontent.com/7457301/234531058-dba8f50d-2ced-4044-8e62-c84b6a01ad82.png">
+
+Image: geometric interpretation of an LP. The point $$ x^* $$ is optimal, it is the point farthest possible in the direction of -c.
+
+There are two cases of LP that are popular:
+
+- A standard form LP: minimize $$ c^T x $$ subject to $$ Ax = b, x \geq 0 $$. 
+
+- An inequality form LP: minimize $$ c^T x $$ subject to $$ Ax \geq b $$.
+
+Here is how to convert LPs to standard form:
+
+- The first step is to introduce slack variables $$ s_i $$ for the inequalities: minimize $$ c^T x + d $$, subject to $$ Gx + s = h, Ax = b, s \geq 0 $$. 
+
+- The second step is to express the variable x as the difference of two nonnegative variables y and z ($$ z = y - z, y, z \geq 0 $$): minimize $$ c^T y - c^T z + d $$ subject to $$ Gy - Gz + s = h, Ay - Az = b, y \geq 0, z \geq 0, s \geq 0 $$.
+
+# Quadratic optimization
+
+The convex optimization problem is called a quadratic program if the objective function is (convex) quadratic and the constraint functions are affine:
+
+minimize $$ (1/2)x^T P x + q^T x + r $$ subject to $$ Gx \leq h, Ax = b $$ where $$ P \in S^n_+, G \in R^{mxn}, A \in R^{pxn} $$. The convex quadratic function is minimized over a polyhedron. 
+
+<img width="363" alt="Screen Shot 2023-04-26 at 16 43 31" src="https://user-images.githubusercontent.com/7457301/234537404-e71a4c15-ec04-4579-8c87-ad6bb2b96ada.png">
+
+Image: Geometric illustration of QP. The point $$ x^* $$ is optimal.
+
+# Geometric programming
+
+Geometric programming is a family of optimization problems that naturally are not convex but can be transformed into a convex problem, by changeing of variables and transformation of objective and constraint functions.
+
+A function $$ f: R^n \to R $$ with domain $$ R^n_{++}: f(x) = cx_1^{a_1} x_2^{a_2} ...x_n^{a_n} $$ where c > 0 and $$ a_i \in R $$ is called a monomial function. A sum of monomials is called a posynomial function of K terms: $$ f(x) = \sum_{k=1}^K c_k x_1^{a_{1k}} x_2^{a_{2k}} ... x_n^{a_{nk}} $$ where $$ c_k > 0 $$.
+
+Then the optimization problem of the form: minimize $$ f_0(x) $$ subject to $$ f_i(x) \leq 1, i=1...m, h_i(x) = 1, i=1...p $$ where $$ f_0, ...f_m $$ are posynomials and $$ h_1,...h_p $$ are monomials, is called the geometric program (GP). The domain of the problem is $$ D = R^n_{++}, x > 0 $$.
+
+- To transform the GP into a convex optimization problem, we first change the variables:
+
+Let's $$ y_i = log x_i $$ so $$ x_i = e^{y_i} $$. If $$ f(x) = c x_1^{a_1} x_2^{a_2}... x_n^{a_n} $$ then $$ f(x) = f(e^{y_1}, ..., e^{y_n}) = c (e^{y_1})^{a_1} ... (e^{y_n})^a_n = e^{a^T y + b} $$ where b = log c. This turns the monomial function into the exponential of an affine function. Now we do similarly for the posynomial: $$ f(x) = \sum_{k=1}^K e^{a_k^{T} y + b_k} $$ where $$ a_k = (a_{1k}, ...a_{nk}) $$ and $$ b_k = log c_k $$. The posynomial also becomes a sum of exponentials of affine functions. The geometric program then can be: minimize $$ \sum_{k=1}^{K_0} e^{a_{0k}^T y + b_{0k}} $$ subject to $$ \sum_{k=1}^{K_i} e^{a_{ik}^T y + b_{ik}} \leq 1, i=1...m, e^{g_i^T y +h_i} = 1, i=1...p $$ where $$ a_{ik} \in R^n, i=0...m $$ and $$ g_i \in R^n, i=1...p $$.
+
+- The second step is to transform the objective and constraint functions by taking logarithm:
+
+minimize $$ f_0(y) = log(\sum_{k=1}^{K_0} e^{a_{0k}^T y + b_{0k}}) $$ subject to $$ f_i(y) = log(\sum_{k=1}^{K_i} e^{a^T_{ik} y + b_{ik}}) \leq 0, i=1...m, l_i(y) = g_i^T y + h_i = 0, i=1..p $$
