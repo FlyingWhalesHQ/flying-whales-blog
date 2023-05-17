@@ -7,6 +7,14 @@ categories: DeepLearning
 
 # TOC
 
+- [Introduction](#intro)
+- [Gradient descent](#grad)
+- [Stochastic gradient descent](#sto)
+- [Momentum](#mo)
+- [AdaGrad](#ada)
+- [RMSprop](#rms)
+- [Adam](#adam)
+
 # Introduction
 
 Optimization is part of the machine learning process in which it is used to find the minimization of loss function so that we find a good weights and biases for the function. It is to note that, during training, given the limited training set, the goal of optimization would be to minimize the loss of the training set. But eventually, we would like to minimize the loss of the generalization. So what we would really want is to minimize the loss function at the same time avoid overfitting on the training set.
@@ -673,7 +681,15 @@ fig.colorbar(cp)
 
 
 # Adam
-Adam is between RMSprop and Momentum. It is like a heavy ball with friction, this helps to overcome the local minimum and reach the global minimum easier.
+Adam is between RMSprop and Momentum. It is like a heavy ball with friction, this helps to overcome the local minimum and reach the global minimum easier. Adam uses exponential weighted moving averages to get an estimate of first and second momentum of the gradient.
+
+$$ v_t \leftarrow \beta_1 v_{t-1} + (1 - \beta_1) g_t $$
+
+$$ s_t \leftarrow \beta_2 s_{t-1} + (1 - \beta_2) g_t^2 $$
+
+with $$ \beta_1, \beta_2 \geq 0 $$ and the common choice is $$ \beta_1 = 0.9, \beta_2 = 0.999 $$. And we update:
+
+$$ x_t \leftarrow x_{t-1} - g'_t $$
 
 
 ```python
