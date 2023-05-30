@@ -5,6 +5,19 @@ date:   2023-05-30 10:14:54 +0700
 categories: MachineLearning
 ---
 
+# TOC
+- [Introduction](#intro)
+- [Memory based](#mem)
+    - [User based](#user)
+    - [Item based](#item)
+- [Model based](#model)
+    - [SVD](#svd)
+    - [PCA](#pca)
+    - [NMF](#nmf)
+- [Hybrid](#hyb)
+- [Deep learning](#deep)
+    - [Auto encoder](#auto)
+
 # Introduction
 
 Collaborative filtering is a technique that is mainly used in recommendation system to suggest user's preferences by collecting data from a similar group of users. It assumes that if those people have similar preference and decisions in the past, so will they in the near future. So the prediction can be used as recommendation for the user on the products. Use case: Amazon develops item-to-item collaborative filtering in their recommendation system.
