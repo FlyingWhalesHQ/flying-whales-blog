@@ -12,15 +12,15 @@ categories: MachineLearning
 
 # Introduction
 
-Content based filtering is a technique used in recommendation system that is based on the content of items, i.e. the features (that can be hidden).
+Content based filtering is a technique used in recommendation system that is based on the content (representing by features) of the items.
 
-Let's start with the utility matrix: with the columns being the users and the rows being the items. Since each user rates only a few items, the matrix is sparse, i.e. there are many missing values. If we can fill in those missing values, we can roughly know which items the user like and maybe suggest them those items. If we can classify the items into groups, when new item comes in the classification algorithm would predict the class the item belongs to and can also provide recommendation for the users accordingly.
+Let's start with the utility matrix: the columns being the users and the rows being the items. Since each user rates only a few items, the matrix is sparse, i.e. there are many missing values. If we can fill in those missing values, we can roughly know which items the user like and maybe suggest them those items. If we can classify the items into groups, when new item comes in the classification algorithm would predict the class the item belongs to and can also provide recommendation for the users accordingly.
 
 For the rating, it can be explicit rating in which the user rates the items according to their preference or it can be implicit rating in which the user's preference is extrapolated based on the number of times they rewatch the videos, the amount of time they visit the product, or when the user actually buys that item.
 
 # Content based recommendation
 
-To build a content based recommendation system, we need to profile all the items. A profile is represented by a feature vector. For example, the features of a song can be the singer, the author, the year and the genre.
+To build a content based recommendation system, we need to build a profile for each items. A profile is represented by a feature vector. For example, the features of a movie can be the actor, the director, the year and the genre.
 
 # Code examples
 
