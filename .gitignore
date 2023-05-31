@@ -5,4 +5,4 @@ _site
 vendor
 note.md
 _notebooks/yolov5
-_notebooks/genome_scores.csv
+_notebooks/ml-latest-small/genome_scores.csv
