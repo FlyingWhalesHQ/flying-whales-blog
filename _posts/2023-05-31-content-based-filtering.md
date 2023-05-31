@@ -20,7 +20,7 @@ For the rating, it can be explicit rating in which the user rates the items acco
 
 # Content based recommendation
 
-To build a content based recommendation system, we need to build a profile for each items. A profile is represented by a feature vector. For example, the features of a movie can be the actor, the director, the year and the genre.
+To build a content based recommendation system, we need to build a profile for each items. A profile is represented by a feature vector. For example, the features of a movie can be the actor, the director, the year and the genre. For the content based recommendation, the gist of the algorithm is to look for similarity among items, hence the result can be not so much novel and diverse. And each time a new item comes in, we need to profile it. Those attribute scoring might be automated or done by human and it can be costly.
 
 # Code examples
 
