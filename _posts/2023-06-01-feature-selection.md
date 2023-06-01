@@ -5,6 +5,21 @@ date:   2023-06-1 10:14:54 +0700
 categories: MachineLearning
 ---
 
+# TOC
+- [Introduction](#intro)
+- [Filter method](#filter)
+    - [Chi squared test](#)
+    - [Mutual information](#)
+    - [ANNOVA](#)
+- [Wrapper method](#wrapper)
+    - [Forward elimination](#)
+    - [Backward elimination](#)
+    - [Recursive feature elimination](#)
+- [Embedded method](#embed)
+    - [LASSO](#)
+    - [Elastic net](#)
+    - [Decision tree and random forest](#)
+
 # Introduction
 
 Feature selection is a technique in machine learning that only choose a subset of all the available features to construct a model. We know that not all features contributes to the prediction equally. For example, to predict a house price, the size of house can be much more important than the address of the house. So feature selection can help to reduce the number of variables, that would reduce computation cost and training time and make the model more parsimonious. The more important thing is that those variables are qualitatively different, so if there is an algorithm or procedure to select only the most contributing attributes, it would be better. This can combat overfitting and help with the ultimate goal of generalization, since the model sees the underlying pattern of the data. That would also possible make the model perform better.
