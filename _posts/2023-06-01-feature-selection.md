@@ -790,7 +790,7 @@ Interestingly, this process chooses the same two variables above: the gender and
 
 
 ## Recursive feature elimination (RFE)
-This algorithm performs a greedy search to find the best performing feature subset. In each iteration, it creates model and determine the best and worst features. Then it builds the next model with the best ones until the number of features we need is reached. The features are then ranked based on the order of their elimination. The top three categorical variables that are chosen are the gender, contract type and whether the client owns a car.
+This algorithm performs a greedy search to find the best performing feature subset. In each iteration, it creates model and determine the best and worst features. Then it builds the next model with the best ones until the number of features we need is reached. The features are then ranked based on the order of their elimination. The top three categorical variables that are chosen are the gender, contract type and whether the client owns a car. The difference with backward elimination is that this method uses a metric of model performance to decide the weakest feature. For example it can use accuracy instead of p-value.
 
 
 ```python
