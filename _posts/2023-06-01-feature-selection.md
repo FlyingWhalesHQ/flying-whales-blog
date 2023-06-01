@@ -9,7 +9,7 @@ categories: MachineLearning
 
 Feature selection is a technique in machine learning that only choose a subset of all the available features to construct a model. We know that not all features contributes to the prediction equally. For example, to predict a house price, the size of house can be much more important than the address of the house. So feature selection can help to reduce the number of variables, that would reduce computation cost and training time and make the model more parsimonious. The more important thing is that those variables are qualitatively different, so if there is an algorithm or procedure to select only the most contributing attributes, it would be better. This can combat overfitting and help with the ultimate goal of generalization, since the model sees the underlying pattern of the data. That would also possible make the model perform better.
 
-Feature selection is a part of feature engineering (create new variables that make better sense). And it is part of the process of understanding your data qualitatively. So make sure you use logics and domain knowledge to evaluate each feature thoroughly before deciding to drop or to add features. Another thing to note is that some feature selection algorithms consider features individually. They cannot take into account feature interactions. That might be the broader task of feature engineering (to combine and make meaningful variables from the feature set).
+Feature selection is a part of feature engineering (create new variables that make better sense). And it is part of the process of understanding your data qualitatively. So make sure you run multiple feature selecting algorithms then use logics and domain knowledge to evaluate each feature thoroughly before deciding to drop or to add features. Another thing to note is that some feature selection algorithms consider features individually. They cannot take into account feature interactions. That might be the broader task of feature engineering (to combine and make meaningful variables from the feature set).
 
 Automatically, there are ways to do feature selection: 
 
@@ -256,10 +256,6 @@ train.head()
 ```python
 y_train = train['TARGET']
 train = train.drop(['TARGET'], axis=1)
-```
-
-
-```python
 y_train = y_train.to_frame()
 y_train
 ```
@@ -360,14 +356,9 @@ X_train = pd.DataFrame(data=X_train, columns=columns)
 
 ```python
 from sklearn.preprocessing import LabelEncoder
-
-X_train = X_train.apply(LabelEncoder().fit_transform)
-```
-
-
-```python
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
+X_train = X_train.apply(LabelEncoder().fit_transform)
 ```
 
 
@@ -424,6 +415,7 @@ print(selected_features)
 
 We can see that the top categorical variables are 'client_credit_SK_ID_CURR_sum_sum', 'client_credit_AMT_CREDIT_LIMIT_ACTUAL_sum_sum', 'client_credit_AMT_TOTAL_RECEIVABLE_sum_sum'. Some of the top 10 of numerical variables are the balance of the client, the credit limit, the principal receivable.
 
+## Information gain (mutual information)
 We can use the method SelectKBest in sklearn with several different algorithm such as mutual information, ANNOVA. These algorithms can process negative values. Mutual information is a non negative value that measures the dependency between the features and the target. It comes from information theory. It is equal to zero iff the two random variables are independent. Higher value would mean higher dependency which means that one variable becomes less uncertain when we know the value of the other one. Note that mutual information method doesn't make assumption about the nature of the relationship, so it can capture non linear and non monotonic relation as well. Some other indicator such as correlation efficient can only capture linear relationship. Here is how to calculate the mutual information $$ I(X,Y) = H(X) - H(X\mid Y) $$. We can see that it is the difference betweeen the entropy for X and the conditional entropy for X given Y. The result is in bits. We only need to choose the corresponding algorithm for the SelectKBest method in sklearn. Since we have a thousand features, the dependency measurement for each variable is low, with the maximum being 0.03. Some of the top variables are about previous loan status, installment payment, actual credit limit, and cash loan purpose. It makes sense to use these features to predict the default rate of the client.
 
 
@@ -483,7 +475,10 @@ print(featureScores.nlargest(10,'Score'))
     965     client_credit_CNT_DRAWINGS_POS_CURRENT_mean_min  0.020707
 
 
+## ANNOVA F-test
+ANNOVA, short for analysis of variance, is a statistical test that can decode the correlation among the features. It can test the equality of the means among populations too. This method can see the difference between systematic component and random factors affecting the observed variability of a dataset. This information can be used to evaluate the impact of features on the target. The equation for ANNOVA for one feature is $$ \frac{distance between classes}{compactness of classes} $$. This ratio shows how good the feature is in predicting the classes of a variable (how good it contributes to separate them). 
 
+For example, we have two classes for feature X separating: Class 1: [800, 300, 1300] and Class 2: [1000, 2000]. First we take the average of all points: (800 + 300 + 1300 + 1000 + 2000) / 5 = 1080. Then the mean of class 1: 800, mean of class 2: 1500. The distance between classes would be calculated as follows: number of observations in class 1 * (mean 1 - mean)^2 + number of observations in class 2 * (mean 2 - mean)^2 = 3 * (800 - 1080)^2 + 2 * (1500 - 1080)^2 = 588000. The compactness of the classes is calculated as: $$ \frac{sample variance 1 + sample variance 2}{number of observations 1 - 1 + number of observations 2 - 1} $$, with sample variance for each class being $$ \frac{\sum_i (x_i - \bar{x})^2}{n-1} $$. $$ Sample variance 1 = \frac{(800-800)^2+(300-800)^2+(1300-800)^2}{3-1} = 250000 $$. $$ sample variance 2 = 500000 $$. So the compactness is $$ 250000 $$. The F-score = 2.352. The degrees of freedom for the numerator is the number of groups minus one which is 1 and the second degrees of freedom is the total number of observations minus the number of groups, which is 5 - 2 = 3. Looking up the critical value for our configuration in the table of F test, the critical value is 5.53 which is larger than the calculated value. We cannot reject the null hypothesis that the feature X doesn't have significant impact on the target variable. Since the mean of the two classes divided by the feature is equal. 
 
 
 ```python
@@ -554,27 +549,249 @@ print(featureScores.nlargest(10,'Score'))
 
 
 
-## Information gain
-This technique measures the reduction in entropy after we do something to the dataset. For example, if we want to split the data for a decision tree model, we would like maximum gain.
-
 ## Correlation coefficient
-This is the indicator of correlation between target variable and the input variables, it selects the highly correlated features with the target.
+This is the indicator of correlation between target variable and the input variables, it selects the highly correlated features with the target. It is a simple technique.
+
+
+```python
+import seaborn as sns
+#Using Pearson Correlation
+plt.figure(figsize=(12,10))
+cor = X_train.corr()
+sns.heatmap(cor, annot=True, cmap=plt.cm.Reds)
+plt.show()
+```
 
 # Wrapper method
 
 ## Forward selection
-This starts with an empty model. In each step, it considers all the available model and chooses the one that add the most to the performance of the model. The process is repeated until adding more variables to the model doesn't improve it anymore.
+This starts with an empty model. In each step, it considers all the available model and chooses the one that add the most to the performance of the model. The process is repeated until adding more variables to the model doesn't improve it anymore. This is a greedy algorithm, meaning that it chooses the immediate best at the current step without thinking about the consequences.
 
-## Backward elimination
-This starts with a model full of features. It removes the least significant feature one at a time, until no further improvement is observed.
+So basically we start with a null main model, this assumes that none of the features can explain the variance in the target. Then we fit a simple sub-model for each feature. We choose the feature that is with the sub-model producing the lowest p-value (highest statistical significance) to add to our main model. Then we fit sub-models with two predictors, one of which is the one already selected, the other is each of the rest. Then we choose the second predictor for our main model by choosing the one associated with the sub-model having the lowest p-value. Repeat the process until a stopping criterion.
 
-## Recursive feature elimination (RFE)
-This algorithm performs a greedy search to find the best performing feature subset. In each iteration, it creates model and determine the best and worst features. Then it builds the next model with the best ones until the end. The features are then ranked based on the order of their elimination.
+
+```python
+numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
+categoricals = ['object']
+X_train = train.select_dtypes(include=categoricals)
+columns = X_train.columns
+from sklearn.impute import SimpleImputer
+import numpy as np
+
+imputer = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
+imputer = imputer.fit(X_train)
+  
+X_train = imputer.transform(X_train)
+X_train = pd.DataFrame(data=X_train, columns=columns)
+X_train = X_train.apply(LabelEncoder().fit_transform)
+```
+
+
+```python
+import statsmodels.api as sm
+
+# List of all potential features
+features = list(X_train.columns)
+
+# The maximum p-value for features we'll accept as significant
+p_max = 0.05
+
+while len(features) > 0:
+    features_with_constant = sm.add_constant(X_train[features])
+    p_values = sm.OLS(y_train, features_with_constant).fit().pvalues[1:]
+    
+    max_p_value = p_values.max()
+    
+    if max_p_value >= p_max:
+        excluded_feature = p_values.idxmax()
+        features.remove(excluded_feature)
+    else:
+        break
+
+print(f'Selected features: {features}')
+
+```
+
+    Selected features: ['CODE_GENDER', 'NAME_EDUCATION_TYPE']
 
 
 
 ```python
+sm.OLS(y_train, features_with_constant).fit().summary()
+```
 
+
+
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>         <td>TARGET</td>      <th>  R-squared:         </th> <td>   0.012</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.010</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   6.041</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Thu, 01 Jun 2023</td> <th>  Prob (F-statistic):</th>  <td>0.00247</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>20:05:18</td>     <th>  Log-Likelihood:    </th> <td> -47.001</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  1000</td>      <th>  AIC:               </th> <td>   100.0</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>   997</td>      <th>  BIC:               </th> <td>   114.7</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+           <td></td>              <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>const</th>               <td>    0.0231</td> <td>    0.016</td> <td>    1.414</td> <td> 0.158</td> <td>   -0.009</td> <td>    0.055</td>
+</tr>
+<tr>
+  <th>CODE_GENDER</th>         <td>    0.0378</td> <td>    0.017</td> <td>    2.252</td> <td> 0.025</td> <td>    0.005</td> <td>    0.071</td>
+</tr>
+<tr>
+  <th>NAME_EDUCATION_TYPE</th> <td>    0.0155</td> <td>    0.006</td> <td>    2.551</td> <td> 0.011</td> <td>    0.004</td> <td>    0.027</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td>683.755</td> <th>  Durbin-Watson:     </th> <td>   1.987</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>5303.637</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 3.310</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td>12.136</td>  <th>  Cond. No.          </th> <td>    6.48</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+
+
+For the categorical variables, this method chooses only gender and education type.
+
+## Backward elimination
+Backward elimination method is similar to the forward elimination but in reverse. It starts with a model full of features. It removes the least significant feature one at a time (having p-value smaller than the significance level of 0.05 for example), until no further improvement is observed. Basically, it fits the full model, then it plans to remove the feature with the highest p-value exceeding the chosen significance level. If there is no such feature, the process stops. Otherwise the feature is removed and the model would be fitted again without the eliminated.
+
+
+
+```python
+numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
+categoricals = ['object']
+X_train = train.select_dtypes(include=categoricals)
+columns = X_train.columns
+from sklearn.impute import SimpleImputer
+import numpy as np
+
+imputer = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
+imputer = imputer.fit(X_train)
+  
+X_train = imputer.transform(X_train)
+X_train = pd.DataFrame(data=X_train, columns=columns)
+X_train = X_train.apply(LabelEncoder().fit_transform)
+```
+
+
+```python
+import pandas as pd
+import statsmodels.api as sm
+
+# Add a column of ones as integer data type
+X_train.insert(0, 'Intercept', 1)
+
+# Set a significance level
+SL = 0.05
+
+# Convert the DataFrame into a list so that we can manipulate the features
+features = list(X_train.columns)
+while (len(features) > 0):
+    features_with_pvalues = []
+    excluded_feature = ''
+    # Fit the model with the current features
+    model = sm.OLS(y_train, X_train[features]).fit()
+    # Get the p-values for the features
+    pvalues = model.pvalues
+    max_pvalue = pvalues.max()  # Get the feature with the highest p-value
+    if max_pvalue > SL:
+        excluded_feature = pvalues.idxmax()  # Get the feature with the highest p-value
+        features.remove(excluded_feature)
+    else:
+        break
+
+final_model = sm.OLS(y_train, X_train[features]).fit()
+print(final_model.summary())
+
+print(f"The final features are: {features}")
+
+```
+
+                                     OLS Regression Results                                
+    =======================================================================================
+    Dep. Variable:                 TARGET   R-squared (uncentered):                   0.083
+    Model:                            OLS   Adj. R-squared (uncentered):              0.081
+    Method:                 Least Squares   F-statistic:                              30.24
+    Date:                Thu, 01 Jun 2023   Prob (F-statistic):                    1.03e-18
+    Time:                        20:06:00   Log-Likelihood:                         -45.766
+    No. Observations:                1000   AIC:                                      97.53
+    Df Residuals:                     997   BIC:                                      112.3
+    Df Model:                           3                                                  
+    Covariance Type:            nonrobust                                                  
+    ==============================================================================================
+                                     coef    std err          t      P>|t|      [0.025      0.975]
+    ----------------------------------------------------------------------------------------------
+    CODE_GENDER                    0.0393      0.016      2.438      0.015       0.008       0.071
+    NAME_EDUCATION_TYPE            0.0162      0.005      3.438      0.001       0.007       0.025
+    WEEKDAY_APPR_PROCESS_START     0.0065      0.003      2.114      0.035       0.000       0.013
+    ==============================================================================
+    Omnibus:                      679.118   Durbin-Watson:                   1.983
+    Prob(Omnibus):                  0.000   Jarque-Bera (JB):             5201.242
+    Skew:                           3.285   Prob(JB):                         0.00
+    Kurtosis:                      12.036   Cond. No.                         8.60
+    ==============================================================================
+    
+    Notes:
+    [1] R² is computed without centering (uncentered) since the model does not contain a constant.
+    [2] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+    The final features are: ['CODE_GENDER', 'NAME_EDUCATION_TYPE', 'WEEKDAY_APPR_PROCESS_START']
+
+
+Interestingly, this process chooses the same two variables above: the gender and the education type, it chooses another one named the day of the week when the client starts the process.
+
+
+## Recursive feature elimination (RFE)
+This algorithm performs a greedy search to find the best performing feature subset. In each iteration, it creates model and determine the best and worst features. Then it builds the next model with the best ones until the number of features we need is reached. The features are then ranked based on the order of their elimination. The top three categorical variables that are chosen are the gender, contract type and whether the client owns a car.
+
+
+```python
+numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
+categoricals = ['object']
+X_train = train.select_dtypes(include=categoricals)
+columns = X_train.columns
+from sklearn.impute import SimpleImputer
+import numpy as np
+
+imputer = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
+imputer = imputer.fit(X_train)
+  
+X_train = imputer.transform(X_train)
+X_train = pd.DataFrame(data=X_train, columns=columns)
+X_train = X_train.apply(LabelEncoder().fit_transform)
 ```
 
 
@@ -582,42 +799,36 @@ This algorithm performs a greedy search to find the best performing feature subs
 from sklearn.feature_selection import RFE
 from sklearn.linear_model import LogisticRegression
 
+# feature extraction
 model = LogisticRegression()
-rfe = RFE(model, 3) # Select top 3 features
-fit = rfe.fit(X_train, y_train)
+rfe = RFE(estimator=model, n_features_to_select=3)
+fit = rfe.fit(X_train, y_train) 
+# get column names
+col_names = X_train.columns
 
-# To get the selected feature names
-selected_features = [feature for feature, mask in zip(X_train.columns, rfe.support_) if mask]
-print(selected_features)
-
+# get selected features
+selected_features = col_names[fit.support_]
 ```
 
 
 ```python
-
+print("Selected Features: ")
+for feature in selected_features:
+    print(feature)
 ```
 
+    Selected Features: 
+    NAME_CONTRACT_TYPE
+    CODE_GENDER
+    FLAG_OWN_CAR
 
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
 
 
 # Embedded method
 This method chooses the features as a part of the creation of the model.
 
 ## LASSO 
-LASSO prefers fewer non zero coefficients.
+LASSO has been introduced in a previous post. Here we will talk about how it incorporates feature selection. Remember that LASSO's loss function has an extra term to penalize the weight of the model, apart from the usual mean squared error. The term is simply $$ \lambda \mid \beta \mid $$. It doesn't just prevent the weights to become too large in absolute, it only can force some of the coefficients to be zero when $$ \lambda $$ is sufficiently large. In our example, the chosen variables are the ones with coefficients different from zero: the type of suite the client lives in, the education, the occupation, the day in the week that the client applies for the loan, and the organization type. One interesting variable is the week day that the client starts the loan process, it seems to be significant across feature selection algorithms. 
 
 
 
@@ -633,16 +844,71 @@ print(selected_features)
 
 ```
 
+    ['NAME_TYPE_SUITE', 'NAME_EDUCATION_TYPE', 'OCCUPATION_TYPE', 'WEEKDAY_APPR_PROCESS_START', 'ORGANIZATION_TYPE']
+
+
+    /Users/nguyenlinhchi/.local/lib/python3.9/site-packages/sklearn/linear_model/_coordinate_descent.py:1568: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+      y = column_or_1d(y, warn=True)
+
+
 
 ## Elastic net
+Since Elastic net is the mix between Lasso and Ridge, they also have that quality of selecting the relevant variables.
 
-## Decision tree
+## Decision tree and Random forest
 
-A decision uses Gini or entropy impurity to estimate the quality of each split. Features at the top contribute to the final prediction more than others at the leaf. The expected fraction of the samples they contribute to thus can be used as an indicator of their importance.
+A decision tree uses Gini or entropy impurity to estimate the quality of each split. Features at the top contribute to the final prediction more than others at the leaf. The expected fraction of the samples they contribute to thus can be used as an indicator of their importance. Random forest is also an algorithm that has the feature importance built in in sklearn library since it is an ensemble of decision trees.
 
 
 
 
 ```python
+from sklearn.ensemble import RandomForestRegressor
 
+# Create a Random Forest Regressor
+rf = RandomForestRegressor(n_estimators=100, random_state=42)
+
+# Fit the model
+rf.fit(X_train, y_train)
+
+# Get feature importances
+importances = rf.feature_importances_
+
+# Convert feature importances to a DataFrame
+importance_df = pd.DataFrame({
+    'Feature': X_train.columns,
+    'Importance': importances
+})
+
+# Sort DataFrame by the importance
+importance_df = importance_df.sort_values(by='Importance', ascending=False)
+
+print(importance_df)
 ```
+
+                           Feature  Importance
+    11           ORGANIZATION_TYPE    0.203309
+    10  WEEKDAY_APPR_PROCESS_START    0.148354
+    9              OCCUPATION_TYPE    0.118677
+    7           NAME_FAMILY_STATUS    0.090337
+    3              FLAG_OWN_REALTY    0.065496
+    14          WALLSMATERIAL_MODE    0.061458
+    2                 FLAG_OWN_CAR    0.056228
+    5             NAME_INCOME_TYPE    0.052931
+    4              NAME_TYPE_SUITE    0.042914
+    1                  CODE_GENDER    0.041188
+    6          NAME_EDUCATION_TYPE    0.038794
+    12          FONDKAPREMONT_MODE    0.031838
+    8            NAME_HOUSING_TYPE    0.025070
+    0           NAME_CONTRACT_TYPE    0.017171
+    15         EMERGENCYSTATE_MODE    0.005946
+    13              HOUSETYPE_MODE    0.000288
+
+
+    /var/folders/kf/5_ggvsz93vxdbx_h0tvy66xh0000gn/T/ipykernel_7037/1195280182.py:7: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+      rf.fit(X_train, y_train)
+
+
+The top four features are organization type, the week day that the process start (this one again, even though it seems that it should be an irrelevant feature before we run all the algorithms), the occupation of the client and the family status.
+
+In conclusion, we have explored multiple ways to select the most relevant features for our model. If done right, there would be many benefits to enjoy from reducing the number of variables: better run time, more efficient computation, better accuracy even. Doing together with good data collecting and preprocessing practices, it would triple our performance. However, remember that which algorithm to take varies from dataset to dataset. And it is required that the person in charge has a sufficient body of knowledge on the matter.
