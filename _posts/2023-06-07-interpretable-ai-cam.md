@@ -142,15 +142,18 @@ Lastly, if we pointwise multiply the gradCAM matrix and the guided backpropagati
 
 ![guided](https://github.com/FlyingWhalesHQ/flying-whales-blog/assets/7457301/43180825-ebf2-41d7-8e5a-e48a7b6369d3)
 
+# DeepVis
+
+In the attempts to make CNN easier to understand, DeepVis was built to visualize the internal working of a neural network. Basically, it starts with a random noise image, then it runs the image through the model, to amplify and return an image with pixels that make the interested neuron most activated for. They regularize a bit by adding the requirement that the image has similar style to natural images (not having extreme pixel values). Here is some of the resulting images, the neurons are clearly excited for identifying goose and ostrich.
+
+<img src="https://yosinski.com/static/proj/deepvis_goose_ostrich.jpg">
+
+The authors was also able to locate specific neurons that responds mostly to face, or to wrinkles (lines). The <a src="https://www.youtube.com/watch?v=AgkfIQ4IGaM">demonstration</a> is quite impressive.
+
 # Conclusion
 
-In conclusion, the GradCAM is a powerful technique to understand the decision making process of convolutional neural networks. It is a generalization of CAM ($$ \alpha = w $$ at the last layer). It uses the gradients flowing backward into each layer to calculate the importance of each pixels and provide a coarse map highlighting the regions that the model uses for prediction.
+In conclusion, the GradCAM is a powerful technique to understand the decision making process of convolutional neural networks. It offers us a lens through which we can gain insights into the decision-making process of these intricate architectures, something that was previously deemed as unattainable. It is a generalization of CAM ($$ \alpha = w $$ at the last layer). Instead of limiting its focus to the weights associated with the final layer of the network, GradCAM broadens its reach by utilizing gradient information from any desired layer. It uses the gradients flowing backward into each layer to calculate the importance of each pixels and provide a coarse map highlighting the regions that the model uses for prediction.
 
-GradCAM, together with other discussed techniques, have shedded much light into the blackbox as we know it. And this interpretability is vital for AI and machine learning system while they continue to evolve and fit into human society. We make them, we need to take the responsibility to keep them transparent, trustworthy and accountable. 
+GradCAM, together with other discussed techniques, have shedded much light into the blackbox as we know it. And this interpretability is vital for AI and machine learning system while they continue to evolve and fit into human society. The rise of such techniques emphasizes the necessity for interpretability in AI and machine learning systems as they continue to permeate every facet of human society. These systems are our creations, and it's our responsibility to ensure their operations are transparent, accountable, and trustworthy.
 
-I believe that in the future, more and more contribution in the interpretability of AI will appear and be welcomed by people from across disciplines, not just the end users. Since interpreting AI models is undeniably an integrated part of progress.
-
-
-```python
-
-```
+I believe that in the future, more and more contribution in the interpretability of AI will appear and be welcomed by people from across disciplines, not just the end users. This widespread participation is inevitable because understanding AI models is no longer just a scientific pursuit - it's a societal necessity. Interpreting AI models is undeniably an integrated part of progress.
