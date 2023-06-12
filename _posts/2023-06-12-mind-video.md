@@ -86,10 +86,28 @@ This is a pretext task that masks the fMRI and then let the autoencoder learns t
 
 CLIP is a pretraining technique that builds a shared latent space for images and natural languages by contrastive learning. The training will minimize cosin distance of paired image and text latent. The CLIP space will end up having rich semantic information on both images and texts.
 
+<img width="1156" alt="Screenshot 2023-06-12 at 18 01 26" src="https://github.com/FlyingWhalesHQ/flying-whales-blog/assets/7457301/7374ae76-6fef-4134-a41a-b7de7d93593a">
+
+The approach (CLIP) jointly trains an image encoder and a text encoder to predict the correct pairings of a batch of (image, text) training examples. The authors experiment with different architecture. They use ResNet-50 with some modification and use an attention pooling mechanism. They also try Vision Transformer for image and transformer for text.
+
 # Stable Diffusion
 Stable diffusion generates a latent version of the data instead of the data directly. As it works with the latent space, the computing resource is reduced and images with higher quality and better details can be generated.
 
+# MinD-Video
 
-```python
+MinD-Video has two modules: an fMRI encoder and a video generative model. The encoder transfers the preprocessed fMRI into embeddings. The fMRI records the whole brain activity with BOLD signals from mostly the visual cortex. The learning scheme is called progressive learning in which a general knowledge is learned first, then more task specific knowledge. The encoder learns the fMRI features in multiple stages. This is biologically sound. The general learning step is done with MBM (masked brain modeling): an asymmetric vision transformer based autoencoder is trained on the Human Connectome Project. The 3D form of the fMRI is rearranged into 1D with order of visual processing hierarchy, then divided into patches. 75% of the patches are then masked and the pretext task is to recover them. 
 
-```
+The fMRI data is then augmented with the video and caption, so that the encoder learns embeddings that are closer to the shared CLIP space containing rich semantic information. The contrastive language-image-fMRI loss is:
+
+$$ L = (L_{CLIP}(emb_f, emb_t) + L_{CLIP}(emb_f, emb_i))/2 $$
+
+with $$ emb_t, emb_i, emb_f $$ being the pooled text embedding, image embedding, and fMRI embedding. $$ L_{CLIP}(a,b) = CrossEntropy(\epsilon a . b^T, [0,1,..n]) $$ with $$ \epsilon $$ being the scaling factor.
+
+The stable diffusion model is used as the base generative model. Temporal constraints are applied to adapt the stable diffusion model to video generation. First, there is a frame consistency to make sure the scene unchanged but also scene-dynamic. We condition the frame on the two previous frame. Second, we input what to generate and what not to generate (negative guidance). The two parts are traiend separately: the fMRI encoder is trained using a large scale dataset then tuned into the target dataset, the generative part is trained with videos from the target with text conditioning. Then the two parts are trained together with fMRI-video pairs.
+
+The results have high quality videos with arbitrary frame rates from fMRI. With adversarial guidance, the model can recover videos with accurate semantics, motions and scene dynamics. This model is the state of the art. It also abides by biological principles of image processing part in the brain.
+
+<img width="921" alt="Screenshot 2023-06-12 at 22 20 34" src="https://github.com/FlyingWhalesHQ/flying-whales-blog/assets/7457301/4cc9209a-0eab-4c6c-b23e-36fe40c0904a">
+
+For more videos, check https://mind-video.com.
+
