@@ -13,6 +13,8 @@ A common way to record brain activities is to use the fMRI (functional Magnetic 
 
 In "Cinematic Mindscapes: High quality video reconstruction from brain activity", the authors present MinD-Video, a model with two modules. The first module is called an fMRI encoder. It learns from brain signals using unsupervised learning. This enable to module to learn general visual features of the fMRI. The module learns deeper semantic patterns with annotated dataset (the encoder learns in the constrastive language image pre training space). The second module is fine tuned with a stable diffusion model, to generate videos. The analysis of the visual cortex and higher cognitive networks suggests that the model is sensible.
 
+<img width="921" alt="Screenshot 2023-06-12 at 22 20 34" src="https://github.com/FlyingWhalesHQ/flying-whales-blog/assets/7457301/4cc9209a-0eab-4c6c-b23e-36fe40c0904a">
+
 Let's explore the topic gradually with each building block.
 
 # Image reconstruction
@@ -107,7 +109,6 @@ The stable diffusion model is used as the base generative model. Temporal constr
 
 The results have high quality videos with arbitrary frame rates from fMRI. With adversarial guidance, the model can recover videos with accurate semantics, motions and scene dynamics. This model is the state of the art. It also abides by biological principles of image processing part in the brain.
 
-<img width="921" alt="Screenshot 2023-06-12 at 22 20 34" src="https://github.com/FlyingWhalesHQ/flying-whales-blog/assets/7457301/4cc9209a-0eab-4c6c-b23e-36fe40c0904a">
 
 For more videos, check https://mind-video.com.
 
