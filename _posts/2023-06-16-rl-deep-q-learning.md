@@ -76,7 +76,18 @@ The algorithm goes as follows, first we initialize the Q-table (values for each 
 
 Similar to the value equation, we update $$ Q(s_t, a_t) \leftarrow Q(s_t, a_t) + \alpha {[R_{t+1} + \delta max_a Q(s_{t+1}, a) - Q(s_t, a_t) ]} $$. Note that after getting the reward $$ r_{t+1} $$, we use a greedy policy (choose the next best action). After updating the Q-value, we start in a new state and use a epsilon greedy policy again. 
 
+# Deep Q-learning
 
-```python
+When the number of the states grow big, using Q-table becomes ineffective. We can use a neural network instead of a Q-table to approximate Q-value for each action in each state. For example, to train a RL to play Atari game, first we stack 4 frames of the game together. This is to capture information on time (movement and direction). We can use a neural network of three convolutional layers, to analyze spatial relationships in those images. Then there are some fully connected layers that flatten the convo matrix and output a Q-value for each action at the state. 
 
-```
+There would be a loss function that compares the Q-value prediction and the Q-target, so that gradient descent can be used to update the weights of the deep Q-network to predict Q-values better.
+
+$$ Q-target = R_{t+1} + \delta max_a Q(S_{t+1}, a) $$
+
+$$ Q-loss = R_{t+1} + \delta max_a Q(S_{t+1}, a) - Q(S_t, A_t) $$
+
+To use the experiences of the training better, a replay buffer is used to save experience samples so that those can be reused. In this case, same experience can be relearned. We can also fix a Q-target network to be trained separately. 
+
+# Conclusion
+
+In conclusion, Deep Q-Learning, a powerful combination of Deep Learning and Reinforcement Learning, has revolutionized the field of artificial intelligence, enabling machines to learn complex behaviors without explicit supervision. By directly learning the optimal policy from high-dimensional inputs, Deep Q-Learning has opened up new possibilities for AI applications, from game playing and robotics to autonomous driving and beyond.
