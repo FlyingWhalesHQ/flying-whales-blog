@@ -64,5 +64,13 @@ Specifically, we have the policy function $$ \pi_{\theta}(s) $$ for the actor an
 
 An extension of actor - critic method is advantage actor - critic (A2C) in which an advantage function is used to calculate the relative advantage of an action compared to other actions in that same state. Instead of using only the value of the action in that state, the value of the action state pair minus the average value of the state is used: $$ A(s,a) = Q(s,a) - V(s) $$. TD error can be used as an estimator of the advantage function: $$ A(s,a) = r + \delta V(s') - V(s) $$
 
+# Conclusion
 
+Policy Gradient methods mark a significant advance in the field of reinforcement learning, leveraging the strengths of both value-based and policy-based approaches to optimize decision-making processes in complex environments. By directly optimizing the policy using gradient ascent, these methods provide a powerful tool that can handle high-dimensional or continuous action spaces and generate stochastic policies, which is often a limitation in other methodologies.
+
+Furthermore, the advent of Actor-Critic architectures, a hybrid approach of Policy Gradient methods, has addressed one of the primary issues with these techniques, namely the high variance in policy evaluation. By pairing an 'Actor' that determines the agent's behavior with a 'Critic' that assesses the quality of actions taken, Actor-Critic methods have effectively reduced this variance, increasing stability, and enhancing the efficiency of the training process.
+
+However, like all machine learning methods, Policy Gradient methods come with their challenges. They can be computationally expensive, sometimes converge to a local maximum rather than the global optimum, and have been noted to train slower than some alternatives due to the step-by-step progression. Despite these, the overall benefits and successful application of Policy Gradient methods underscore their immense potential in creating intelligent, learning-driven systems.
+
+In conclusion, Policy Gradient methods offer a robust and versatile framework for solving complex reinforcement learning problems. Their inherent capacity to handle a variety of action spaces, their adaptability via Actor-Critic architectures, and their continuous evolution make them an indispensable part of the modern reinforcement learning toolkit. Future research and refinement of these methods will undeniably unlock even more powerful applications, pushing the boundaries of what artificial intelligence can achieve.
 
