@@ -62,11 +62,7 @@ Specifically, we have the policy function $$ \pi_{\theta}(s) $$ for the actor an
 
 - The critic now updates the value parameters: $$ \Delta w = \beta (R(s,a) + \delta q_w(s_{t+1}, a_{t+1}) - q_w(s_t, a_t)) \nabla_w q_w(s_t,a_t) $$
 
+An extension of actor - critic method is advantage actor - critic (A2C) in which an advantage function is used to calculate the relative advantage of an action compared to other actions in that same state. Instead of using only the value of the action in that state, the value of the action state pair minus the average value of the state is used: $$ A(s,a) = Q(s,a) - V(s) $$. TD error can be used as an estimator of the advantage function: $$ A(s,a) = r + \delta V(s') - V(s) $$
 
 
 
-
-
-```python
-
-```
