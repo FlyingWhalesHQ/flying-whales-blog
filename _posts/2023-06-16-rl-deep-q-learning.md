@@ -88,6 +88,7 @@ $$ Q-loss = R_{t+1} + \delta max_a Q(S_{t+1}, a) - Q(S_t, A_t) $$
 
 To use the experiences of the training better, a replay buffer is used to save experience samples so that those can be reused. In this case, same experience can be relearned. We can also fix a Q-target network to be trained separately. 
 
+
 We can use a neural network called Q-network consisting of a series of dense layers for the Cart Pole problem, with Adam optimizer.
 
 
